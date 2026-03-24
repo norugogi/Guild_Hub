@@ -1,11 +1,5 @@
-/***************************************
- * 전역 데이터
- ***************************************/
 let whoData = [];
 
-/***************************************
- * 직업 한글 변환
- ***************************************/
 const classMap = {
   AbyssRevenant:"심연추방자",
   Enforcer:"집행관",
@@ -20,17 +14,12 @@ const classMap = {
  ***************************************/
 window.onload = function(){
 
-  console.log("who.js 로드됨");
-
   fetch("data/Who_are_you.json")
   .then(res => res.json())
   .then(data => {
 
-    console.log("데이터 로드:", data);
-
-    // 🔥 배열 확인
     if(!Array.isArray(data)){
-      console.error("JSON이 배열이 아님!", data);
+      console.error("JSON 구조 오류", data);
       return;
     }
 
@@ -44,7 +33,7 @@ window.onload = function(){
 };
 
 /***************************************
- * 검색 (전역 함수 필수)
+ * 검색
  ***************************************/
 function searchPlayer(){
 
@@ -65,22 +54,20 @@ function searchPlayer(){
     return true;
   });
 
-  // 🔥 순위 기준 정렬 (자동)
-  filtered.sort((a, b) => a.ranking - b.ranking);
+  filtered.sort((a,b) => a.ranking - b.ranking);
 
   renderTable(filtered);
 }
 
 /***************************************
- * 테이블 렌더링
+ * 테이블 출력
  ***************************************/
 function renderTable(list){
 
   const tbody = document.getElementById("whoBody");
 
-  // 🔥 안전 처리
   if(!Array.isArray(list)){
-    console.error("renderTable: 배열 아님", list);
+    console.error("배열 아님", list);
     return;
   }
 
@@ -110,7 +97,7 @@ function renderTable(list){
 }
 
 /***************************************
- * 엔터키 검색
+ * 엔터 검색
  ***************************************/
 document.addEventListener("keydown", e => {
   if(e.key === "Enter"){

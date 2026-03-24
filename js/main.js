@@ -2,7 +2,6 @@ let players = [];
 let rawData = [];
 let rubyData = [];
 let currentFilter = "ALL";
-let originalMainContent = "";
 
 const classMap = {
   AbyssRevenant:"심연추방자",
@@ -206,7 +205,7 @@ function add(map,key){
 }
 
 /* =====================
-   그래프 (🔥 원래 기능 복구)
+   그래프
 ===================== */
 function renderChart(id,data){
 
@@ -236,7 +235,6 @@ function renderChart(id,data){
       indexAxis:'y',
       plugins:{legend:{display:false}},
 
-      // 🔥 팝업 복구
       onClick: (e, elements) => {
 
         if(elements.length === 0) return;
@@ -265,60 +263,76 @@ function renderChart(id,data){
 }
 
 /* =====================
-   규정집
+   결사 통계
 ===================== */
-function loadRules(){
+function buildGuildStat(data){
 
-  const box = document.getElementById("mainContent");
+  const box = document.getElementById("guildStatBox");
+  if(!box) return;
 
-  if(!originalMainContent){
-    originalMainContent = box.innerHTML;
-  }
+  let levelMap = {};
+  let classMap2 = {};
+  let gradeMap = {};
 
-  fetch("data/rules.json")
-  .then(res=>res.json())
-  .then(data=>{
+  data.forEach(p=>{
+    add(levelMap,p.gc_level);
+    add(classMap2,classMap[p.class]||p.class);
+    add(gradeMap,p.grade);
+  });
 
-    let html = "";
+  box.innerHTML = `
+    <div class="stat-wrap">
+      ${makeStatCard("레벨 통계", levelMap)}
+      ${makeStatCard("직업 통계", classMap2)}
+      ${makeStatCard("토벌 통계", gradeMap)}
+    </div>
+  `;
+}
 
-    Object.values(data).forEach(section=>{
+function makeStatCard(title, map){
 
-      html += `
-        <div class="card">
-          <div class="card-title">${section.title}</div>
-          <div class="card-body">
-      `;
+  let html = `
+    <div class="stat-card">
+      <h3>${title}</h3>
+      <table>
+        <tr><th>구분</th><th>인원</th></tr>
+  `;
 
-      section.items.forEach(item=>{
-        html += `<div class="item">✔ ${item}</div>`;
-      });
-
-      html += `
-          </div>
-        </div>
-      `;
+  Object.entries(map)
+    .sort((a,b)=>b[1]-a[1])
+    .forEach(([k,v])=>{
+      html += `<tr><td>${k}</td><td>${v}</td></tr>`;
     });
 
-    box.innerHTML = html;
-  });
+  html += `
+      </table>
+    </div>
+  `;
+
+  return html;
 }
 
 /* =====================
-   메인 복귀 (🔥 핵심 수정)
+   루비
 ===================== */
-function goMain(){
+function renderRuby(){
 
-  const box = document.getElementById("mainContent");
+  const table = document.getElementById("rubyTable");
+  if(!table || !rubyData.length) return;
 
-  if(originalMainContent){
-    box.innerHTML = originalMainContent;
-  }
+  let html="";
 
-  showPage('mainPage');
+  rubyData
+    .sort((a,b)=>b.score-a.score)
+    .forEach((p,i)=>{
+      html += `
+      <tr>
+        <td>${i+1}</td>
+        <td>${p.name}</td>
+        <td>${p.guild}</td>
+        <td>${p.score.toLocaleString()}</td>
+      </tr>`;
+    });
 
-  setTimeout(()=>{
-    updateSummary(rawData);
-    buildStats(rawData);
-    initClassFilter();
-  },0);
+  table.innerHTML = html;
 }

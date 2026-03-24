@@ -11,26 +11,44 @@ const classMap = {
 };
 
 /* =====================
-   데이터 로드
+   페이지 전환 (🔥 복구 핵심)
 ===================== */
-fetch("Guild_Hub/data/catdog_all_in_one.json")
+function showPage(id, el){
+
+  document.querySelectorAll(".page, #mainPage")
+    .forEach(p=>p.style.display="none");
+
+  document.getElementById(id).style.display="block";
+
+  document.querySelectorAll(".menu-item")
+    .forEach(m=>m.classList.remove("active"));
+
+  if(el) el.classList.add("active");
+}
+
+/* =====================
+   데이터 로드 (🔥 경로 수정)
+===================== */
+fetch("data/catdog_all_in_one.json")
 .then(res=>res.json())
 .then(data=>{
   players = data;
   rawData = data;
 
-  showAll();
+  // 기본 화면
+  render(players);
   buildStats(data);
 });
 
 /* =====================
-   결사원 리스트 (기존 유지)
+   결사원 리스트
 ===================== */
 function render(list){
+
   const el = document.getElementById("guildList");
   if(!el) return;
 
-  let html="";
+  let html = "";
 
   list.forEach(p=>{
     html += `
@@ -45,6 +63,9 @@ function render(list){
   el.innerHTML = html;
 }
 
+/* =====================
+   필터 (🔥 기존 기능 복구)
+===================== */
 function showAll(){
   render(players);
 }

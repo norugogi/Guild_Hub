@@ -251,31 +251,32 @@ function renderChart(id,data){
 
         if(elements.length === 0) return;
 
-        const index = elements[0].index;
-        const label = labels[index];
+      const index = elements[0].index;
+      const label = labels[index];
 
-        let list = [];
+      let list = [];
 
-        if(id === "classStats"){
-          list = rawData.filter(p => (classMap[p.class] || p.class) == label);
-        }
-
-        if(id === "gradeStats"){
-          list = rawData.filter(p => String(p.grade) == String(label));
-        }
-
-        if(id === "levelStats"){
-          list = rawData.filter(p => String(p.gc_level) == String(label));
-        }
-
-        openModal(label, list);
+      if(id === "classStats"){
+        list = rawData.filter(p => (classMap[p.class] || p.class) == label);
       }
-    }
-  });
+
+      if(id === "gradeStats"){
+        list = rawData.filter(p => String(p.grade) == String(label));
+      }
+
+      if(id === "levelStats"){
+        list = rawData.filter(p => String(p.gc_level) == String(label));
+      }
+
+  // 🔥 마우스 좌표
+  const x = e.native.clientX;
+  const y = e.native.clientY;
+
+  openModal(label, list, x, y);
 }
 
 /* =====================
-   결사 통계 (단 하나만 존재)
+   결사 통계 (단 하나만 존재)ㄹ
 ===================== */
 function buildGuildStat(data){
 
@@ -352,18 +353,16 @@ function renderRuby(){
 }
 
 /*===메인그래프팝업====*/
-function openModal(title, list){
+function openModal(title, list, x, y){
 
   const modal = document.getElementById("modal");
+  const modalBox = document.querySelector(".modal-box");
   const modalTitle = document.getElementById("modalTitle");
   const modalList = document.getElementById("modalList");
-
-  if(!modal || !modalTitle || !modalList) return;
 
   modalTitle.innerText = title;
 
   let html = "";
-
   list.forEach(p=>{
     html += `<div>${p.gc_name}</div>`;
   });
@@ -371,9 +370,15 @@ function openModal(title, list){
   modalList.innerHTML = html;
 
   modal.style.display = "block";
-}
 
-function closeModal(){
-  document.getElementById("modal").style.display = "none";
-}
+  // 🔥 위치 지정 + 보정 포함
+  const boxWidth = 420;
+  const boxHeight = 300;
 
+  const posX = Math.min(x, window.innerWidth - boxWidth);
+  const posY = Math.min(y, window.innerHeight - boxHeight);
+
+  modalBox.style.position = "fixed";
+  modalBox.style.left = posX + "px";
+  modalBox.style.top = posY + "px";
+}

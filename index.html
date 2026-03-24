@@ -3,119 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-<title>DOG & CAT Guild Hub</title>
+<title>Guild Hub</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Pretendard, sans-serif;
-  background: #1e1f22;
-  color: #fff;
-}
+body { margin:0; font-family:Pretendard; background:#1e1f22; color:#fff; }
 
-/* 사이드 */
-.sidebar {
-  width: 220px;
-  height: 100vh;
-  background: #111214;
-  padding: 20px;
-  position: fixed;
-}
+.sidebar { width:220px; height:100vh; background:#111214; padding:20px; position:fixed; }
+.menu-title { font-size:13px; color:#888; margin-top:20px; margin-bottom:8px; }
+.menu-item { padding:10px; border-radius:6px; cursor:pointer; margin-bottom:6px; }
+.menu-item:hover { background:#2a2b30; }
+.menu-item.active { background:#d4af37; color:#000; font-weight:bold; }
 
-.menu-title {
-  font-size: 13px;
-  color: #888;
-  margin-top: 20px;
-  margin-bottom: 8px;
-}
+.main { margin-left:240px; padding:30px; }
+.title { text-align:center; font-size:24px; margin-bottom:20px; }
 
-.menu-item {
-  padding: 10px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-bottom: 6px;
-}
+table { width:100%; border-collapse:collapse; }
+th, td { padding:10px; border-bottom:1px solid #333; text-align:center; }
+thead { background:#2a2b30; }
 
-.menu-item:hover {
-  background: #2a2b30;
-}
-
-.menu-item.active {
-  background: #d4af37;
-  color: #000;
-  font-weight: bold;
-}
-
-/* 메인 */
-.main {
-  margin-left: 240px;
-  padding: 30px;
-}
-
-.title {
-  text-align: center;
-  font-size: 26px;
-  font-weight: bold;
-}
-
-.sub {
-  text-align: center;
-  color: #aaa;
-  margin-bottom: 20px;
-}
-
-/* 테이블 */
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-thead {
-  background: #2a2b30;
-}
-
-th, td {
-  padding: 12px;
-  text-align: center;
-  border-bottom: 1px solid #333;
-}
-
-tbody tr:hover {
-  background: #2a2b30;
-}
-
-/* 루비 */
-.bar-wrap {
-  width: 100%;
-  height: 20px;
-  background: #333;
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 20px 0;
-}
-
-.bar {
-  height: 100%;
-  background: #ff4d4d;
-  width: 0%;
-}
-
-.center {
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-select, input, button {
-  background: #2a2b30;
-  color: #fff;
-  border: none;
-  padding: 6px;
-  margin: 4px;
-}
-
-button {
-  cursor: pointer;
-}
+input, select, button { background:#2a2b30; color:#fff; border:none; padding:6px; margin:4px; }
+button { cursor:pointer; }
+.center { text-align:center; }
 </style>
 </head>
 
@@ -124,198 +32,174 @@ button {
 <!-- 사이드바 -->
 <div class="sidebar">
 
-  <div class="menu-title">메인</div>
-  <div class="menu-item active" onclick="showPage('mainPage', this)">대시보드</div>
+<div class="menu-title">메인</div>
+<div class="menu-item active" onclick="showPage('mainPage',this)">메인화면</div>
 
-  <div class="menu-title">공지</div>
-  <div class="menu-item" onclick="showPage('noticePage', this)">시즌 주요 공지</div>
+<div class="menu-title">공지</div>
+<div class="menu-item" onclick="showPage('noticePage',this)">시즌 주요 공지</div>
 
-  <div class="menu-title">결사</div>
-  <div class="menu-item" onclick="showPage('guildPage', this)">결사원 리스트</div>
+<div class="menu-title">결사</div>
+<div class="menu-item" onclick="showPage('guildListPage',this)">결사원 리스트</div>
+<div class="menu-item" onclick="showPage('guildStatPage',this)">결사 통계</div>
 
-  <div class="menu-title">캐릭터</div>
-  <div class="menu-item" onclick="showPage('whoPage', this)">너 누구야</div>
+<div class="menu-title">캐릭터</div>
+<div class="menu-item" onclick="showPage('whoPage',this)">너 누구야</div>
 
-  <div class="menu-title">통계</div>
-  <div class="menu-item" onclick="showPage('statsPage', this)">통계 보기</div>
+<div class="menu-title">통계</div>
+<div class="menu-item" onclick="showPage('levelStatPage',this)">레벨 통계</div>
+<div class="menu-item" onclick="showPage('gradeStatPage',this)">토벌 통계</div>
+<div class="menu-item" onclick="showPage('classStatPage',this)">직업 통계</div>
 
-  <div class="menu-title">공헌도</div>
-  <div class="menu-item" onclick="showPage('rubyPage', this)">루비 공헌</div>
+<div class="menu-title">공헌도</div>
+<div class="menu-item" onclick="showPage('rubyPage',this)">루비 공헌도</div>
+<div class="menu-item" onclick="showPage('ratePage',this)">참여율</div>
 
-  <div class="menu-title">관리자</div>
-  <div class="menu-item" onclick="showPage('adminPage', this)">관리자</div>
+<div class="menu-title">관리자</div>
+<div class="menu-item" onclick="showPage('adminPage',this)">관리자</div>
 
 </div>
 
-<!-- 메인 영역 -->
+<!-- 메인 -->
 <div class="main">
 
-  <!-- 메인 -->
-  <div id="mainPage">
-    <div class="title">DOG & CAT Guild Hub</div>
-    <div class="sub">메인 대시보드 (데이터 연결 예정)</div>
-  </div>
+<div id="mainPage"><div class="title">메인화면</div></div>
 
-  <!-- 공지 -->
-  <div id="noticePage" style="display:none;">
-    <div class="title">시즌 주요 공지</div>
-    <div class="center">공지 데이터 연결 예정</div>
-  </div>
+<!-- 공지 -->
+<div id="noticePage" style="display:none;">
+<div class="title">공지</div>
+<div id="noticeBox"></div>
+</div>
 
-  <!-- 결사 -->
-  <div id="guildPage" style="display:none;">
-    <div class="title">결사원 리스트</div>
+<!-- 결사 리스트 -->
+<div id="guildListPage" style="display:none;">
+<div class="title">결사원 리스트</div>
+<table>
+<thead><tr><th>결사</th><th>닉네임</th><th>레벨</th><th>직업</th><th>토벌</th></tr></thead>
+<tbody id="guildList"></tbody>
+</table>
+</div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>결사</th>
-          <th>캐릭터</th>
-          <th>레벨</th>
-          <th>직업</th>
-          <th>토벌</th>
-        </tr>
-      </thead>
-      <tbody id="guildList"></tbody>
-    </table>
-  </div>
+<!-- 결사 통계 -->
+<div id="guildStatPage" style="display:none;">
+<div class="title">결사 통계</div>
+<div id="guildStatBox"></div>
+</div>
 
-  <!-- 너누구야 -->
-  <div id="whoPage" style="display:none;">
-    <div class="title">너 누구야</div>
+<!-- 너누구야 -->
+<div id="whoPage" style="display:none;">
+<div class="title">너 누구야</div>
+<div class="center">
+<input id="searchName" placeholder="닉네임">
+<button onclick="searchPlayer()">검색</button>
+</div>
+<div id="whoResult" class="center"></div>
+</div>
 
-    <div class="center">
-      <input id="searchName" placeholder="닉네임 입력">
-      <button onclick="searchPlayer()">검색</button>
-    </div>
+<!-- 통계 -->
+<div id="levelStatPage" style="display:none;"><div class="title">레벨 통계</div><div id="levelStat"></div></div>
+<div id="gradeStatPage" style="display:none;"><div class="title">토벌 통계</div><div id="gradeStat"></div></div>
+<div id="classStatPage" style="display:none;"><div class="title">직업 통계</div><div id="classStat"></div></div>
 
-    <div id="whoResult" class="center"></div>
-  </div>
+<!-- 루비 -->
+<div id="rubyPage" style="display:none;">
+<div class="title">루비 공헌</div>
+<table>
+<thead><tr><th>순위</th><th>닉네임</th><th>결사</th><th>점수</th></tr></thead>
+<tbody id="rubyTable"></tbody>
+</table>
+</div>
 
-  <!-- 통계 -->
-  <div id="statsPage" style="display:none;">
-    <div class="title">통계</div>
-    <div class="center">통계 데이터 연결 예정</div>
-  </div>
+<!-- 참여율 -->
+<div id="ratePage" style="display:none;">
+<div class="title">참여율</div>
+<div id="rateBox">추후 연결</div>
+</div>
 
-  <!-- 루비 -->
-  <div id="rubyPage" style="display:none;">
-
-    <div class="title">루비 공헌 순위</div>
-
-    <div class="center">
-      <select id="groupFilter">
-        <option value="all">전체</option>
-        <option value="DOG">DOG</option>
-        <option value="CAT">CAT</option>
-      </select>
-
-      <select id="seasonFilter"></select>
-      <select id="weekFilter"></select>
-    </div>
-
-    <div class="bar-wrap">
-      <div id="rubyBar" class="bar"></div>
-    </div>
-
-    <div class="center" id="rubyText"></div>
-    <div class="center" id="rubyPercent"></div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>순위</th>
-          <th>시즌</th>
-          <th>주차</th>
-          <th>결사</th>
-          <th>닉네임</th>
-          <th>총누적</th>
-          <th>주차공헌</th>
-        </tr>
-      </thead>
-      <tbody id="rubyTable"></tbody>
-    </table>
-
-  </div>
-
-  <!-- 관리자 -->
-  <div id="adminPage" style="display:none;">
-    <div class="title">관리자</div>
-    <div class="center">관리 기능 예정</div>
-  </div>
+<!-- 관리자 -->
+<div id="adminPage" style="display:none;">
+<div class="title">관리자</div>
+</div>
 
 </div>
 
-<!-- JS -->
 <script>
-let allPlayers = [];
+
+let players = [];
+let rubyData = [];
 
 /* 페이지 전환 */
-function showPage(pageId, el){
-  document.querySelectorAll(".main > div").forEach(p=>{
-    p.style.display = "none";
-  });
+function showPage(id, el){
+  document.querySelectorAll(".main > div").forEach(p=>p.style.display="none");
+  document.getElementById(id).style.display="block";
 
-  document.getElementById(pageId).style.display = "block";
-
-  document.querySelectorAll(".menu-item").forEach(e=>{
-    e.classList.remove("active");
-  });
-
+  document.querySelectorAll(".menu-item").forEach(e=>e.classList.remove("active"));
   el.classList.add("active");
 }
 
-/* JSON 불러오기 */
-fetch("https://raw.githubusercontent.com/norugogi/prasia-data/main/all_servers_ranking.json")
-.then(res => res.json())
-.then(data => {
-  allPlayers = data;
+/* 공지 */
+fetch("data/notice.json")
+.then(r=>r.json())
+.then(data=>{
+  document.getElementById("noticeBox").innerText = data.notice || JSON.stringify(data);
+});
+
+/* 결사 데이터 */
+fetch("data/catdog_all_in_one.json")
+.then(r=>r.json())
+.then(data=>{
+  players = data;
   renderGuild(data);
+});
+
+/* 루비 */
+fetch("data/ruby_ranking.json")
+.then(r=>r.json())
+.then(data=>{
+  rubyData = data;
+  renderRuby(data);
 });
 
 /* 결사 리스트 */
 function renderGuild(data){
   const tbody = document.getElementById("guildList");
   tbody.innerHTML = "";
-
-  data.slice(0, 100).forEach(p=>{
-    const tr = document.createElement("tr");
-
-    tr.innerHTML = `
-      <td>${p.guild_name || "-"}</td>
+  data.slice(0,100).forEach(p=>{
+    tbody.innerHTML += `
+    <tr>
+      <td>${p.guild_name}</td>
       <td>${p.gc_name}</td>
       <td>${p.gc_level}</td>
       <td>${p.class}</td>
       <td>${p.string_map?.grade || "-"}</td>
-    `;
+    </tr>`;
+  });
+}
 
-    tbody.appendChild(tr);
+/* 루비 */
+function renderRuby(data){
+  const tbody = document.getElementById("rubyTable");
+  tbody.innerHTML = "";
+  data.forEach((r,i)=>{
+    tbody.innerHTML += `
+    <tr>
+      <td>${i+1}</td>
+      <td>${r.name}</td>
+      <td>${r.guild}</td>
+      <td>${r.score}</td>
+    </tr>`;
   });
 }
 
 /* 너누구야 */
 function searchPlayer(){
   const name = document.getElementById("searchName").value.trim();
-
-  if(!name){
-    alert("닉네임 입력");
-    return;
-  }
-
-  const result = allPlayers.find(p => p.gc_name === name);
-
-  if(!result){
-    document.getElementById("whoResult").innerText = "찾을 수 없음";
-    return;
-  }
+  const p = players.find(x=>x.gc_name===name);
 
   document.getElementById("whoResult").innerText =
-    `${result.gc_name} | Lv.${result.gc_level} | ${result.class} | ${result.guild_name}`;
+    p ? `${p.gc_name} | Lv.${p.gc_level} | ${p.class} | ${p.guild_name}` : "없음";
 }
-</script>
 
-<!-- 기존 루비 -->
-<script src="ruby.js"></script>
+</script>
 
 </body>
 </html>

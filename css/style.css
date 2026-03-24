@@ -145,3 +145,27 @@ body {
 .chart-item:hover{
   background:#444;
 }
+/* 그래프 */
+canvas{
+  margin-top:10px;
+}
+
+/* 테이블 */
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+td,th{
+  padding:8px;
+  border-bottom:1px solid #444;
+}
+
+th{
+  background:#333;
+}
+
+/* 정렬 */
+.table-hover tr:hover{
+  background:#2f2f2f;
+}

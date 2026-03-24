@@ -340,13 +340,13 @@ tbody tr:nth-child(3) {
 
 /* 시즌공지 */
 .notice-wrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: block; /* flex 제거 */
+  text-align: center;
 }
 
 .notice-img {
-  max-width: 95%;
-  max-height: 90vh;
+  width: 90%;
+  height: auto;
+  max-height: none;   /* 🔥 이거 중요 */
   border-radius: 10px;
 }

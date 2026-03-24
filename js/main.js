@@ -456,4 +456,9 @@ function goMain(){
   }
 
   showPage('mainPage');
+
+  // 🔥 핵심 (이거 추가)
+  setTimeout(()=>{
+    renderAll();   // 👈 네가 쓰던 전체 렌더 함수
+  }, 50);
 }

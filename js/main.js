@@ -145,7 +145,7 @@ function render(list){
 
   let html="";
 
-   list.forEach(p=>{
+  list.forEach(p=>{
     html += `
       <div style="
         display:grid;
@@ -161,9 +161,8 @@ function render(list){
     `;
   });
 
-  modalList.innerHTML = html;
-
-  modal.style.display = "flex";
+  // 🔥 핵심 (여기!!)
+  el.innerHTML = html;
 }
 /* =====================
    직업 필터

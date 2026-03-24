@@ -398,3 +398,11 @@ tbody tr:nth-child(3) {
   transform: translateY(-3px);
   transition: 0.2s;
 }
+
+.card {
+  margin-left: 0;
+}
+
+.card-body {
+  margin: 0;
+}

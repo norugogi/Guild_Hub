@@ -149,19 +149,23 @@ function render(list){
     html += `
       <div style="
         display:grid;
-        grid-template-columns: 1fr 80px 120px;
-        padding:6px 0;
+        grid-template-columns: auto 70px 120px;
+        gap:20px;
+        justify-content:center;
+        width:fit-content;
+        margin:0 auto;
+        padding:6px 10px;
         border-bottom:1px solid rgba(255,255,255,0.05);
         align-items:center;
       ">
         <span>${p.gc_name}</span>
-        <span>Lv.${p.gc_level}</span>
-        <span>${classMap[p.class] || p.class}</span>
+        <span style="color:#ffd700;">Lv.${p.gc_level}</span>
+        <span style="opacity:0.7;">${classMap[p.class] || p.class}</span>
       </div>
     `;
   });
 
-  el.innerHTML = html; // ✅ 여기만 있어야 함
+  el.innerHTML = html;
 }
 /* =====================
    직업 필터
@@ -353,6 +357,13 @@ function openModal(title, list){
 
   modalTitle.innerText = title;
 
+  // 🔥 데이터 없을 때 방어
+  if(!list || list.length === 0){
+    modalList.innerHTML = "<div style='text-align:center; padding:20px;'>데이터 없음</div>";
+    modal.style.display = "flex";
+    return;
+  }
+
   list.sort((a,b)=>b.gc_level - a.gc_level);
 
   let html = "";
@@ -361,14 +372,18 @@ function openModal(title, list){
     html += `
       <div style="
         display:grid;
-        grid-template-columns: 1fr 80px 120px;
-        padding:6px 0;
+        grid-template-columns: auto 70px 120px;
+        gap:20px;
+        justify-content:center;
+        width:fit-content;
+        margin:0 auto;
+        padding:6px 10px;
         border-bottom:1px solid rgba(255,255,255,0.05);
         align-items:center;
       ">
         <span>${p.gc_name}</span>
-        <span>Lv.${p.gc_level}</span>
-        <span>${classMap[p.class] || p.class}</span>
+        <span style="color:#ffd700;">Lv.${p.gc_level}</span>
+        <span style="opacity:0.7;">${classMap[p.class] || p.class}</span>
       </div>
     `;
   });

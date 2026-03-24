@@ -87,10 +87,11 @@ function renderRuby(){
   if(!rubyData.length) return;
 
   const table = document.getElementById("rubyTable");
-  if(!table) return; // 🔥 안전장치
+  if(!table) return;
 
   const filters = getRubyFilters();
 
+  // 🔥 필터
   let filtered = rubyData.filter(r => {
 
     if(filters.group !== "all" && r.group !== filters.group) return false;
@@ -99,26 +100,6 @@ function renderRuby(){
 
     return true;
   });
-
-  let html = "";
-
-  filtered.forEach((p, i) => {
-    html += `
-    <tr>
-      <td>${i+1}</td>
-      <td>${p.season}</td>
-      <td>${p.week}</td>
-      <td>${p.group}</td>
-      <td>${p.name}</td>
-      <td>${p.total || 0}</td>
-      <td>${p.weekValue || 0}</td>
-    </tr>
-    `;
-  });
-
-  // 🔥 마지막에 실행
-  table.innerHTML = html;
-}
 
   // 🔥 UID 기준 합산
   let map = {};
@@ -148,7 +129,27 @@ function renderRuby(){
   // 🔥 정렬
   list.sort((a,b)=> b.total - a.total);
 
-  // 🔥 게이지 계산
+  // 🔥 테이블 출력
+  let html = "";
+
+  list.forEach((p, i) => {
+
+    html += `
+    <tr>
+      <td>${i+1}</td>
+      <td>${p.season}</td>
+      <td>${p.week}</td>
+      <td>${p.group}</td>
+      <td>${p.name}</td>
+      <td>${p.total.toLocaleString()}</td>
+      <td>${p.weekValue.toLocaleString()}</td>
+    </tr>
+    `;
+  });
+
+  table.innerHTML = html;
+
+  // 🔥 게이지
   const totalSum = list.reduce((sum,v)=> sum + v.total, 0);
   const goal = 50000000;
   const percent = Math.min((totalSum / goal) * 100, 100);
@@ -160,3 +161,4 @@ function renderRuby(){
   if(bar) bar.style.width = percent + "%";
   if(text) text.innerText = `${totalSum.toLocaleString()} / ${goal.toLocaleString()}`;
   if(percentText) percentText.innerText = percent.toFixed(1) + "%";
+}

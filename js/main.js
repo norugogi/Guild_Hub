@@ -372,3 +372,9 @@ function closeModal(){
   const modal = document.getElementById("modal");
   if(modal) modal.style.display = "none";
 }
+
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape"){
+    closeModal();
+  }
+});

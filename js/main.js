@@ -161,8 +161,7 @@ function render(list){
     `;
   });
 
-  // 🔥 핵심 (여기!!)
-  el.innerHTML = html;
+  el.innerHTML = html; // ✅ 여기만 있어야 함
 }
 /* =====================
    직업 필터
@@ -354,13 +353,27 @@ function openModal(title, list){
 
   modalTitle.innerText = title;
 
-  // 🔥 레벨 높은순 정렬
   list.sort((a,b)=>b.gc_level - a.gc_level);
 
   let html = "";
 
-  modalList.innerHTML = html;
+  list.forEach(p=>{
+    html += `
+      <div style="
+        display:grid;
+        grid-template-columns: 1fr 80px 120px;
+        padding:6px 0;
+        border-bottom:1px solid rgba(255,255,255,0.05);
+        align-items:center;
+      ">
+        <span>${p.gc_name}</span>
+        <span>Lv.${p.gc_level}</span>
+        <span>${classMap[p.class] || p.class}</span>
+      </div>
+    `;
+  });
 
+  modalList.innerHTML = html;
   modal.style.display = "flex";
 }
 

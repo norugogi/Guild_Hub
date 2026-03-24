@@ -367,9 +367,3 @@ function makeStatCard(title, map){
 
   return html;
 }
-
-/* =====데이터로딩====== */
-const res2 = await fetch("Guild_Hub/data/ruby_ranking.json");
-rubyData = await res2.json();
-
-renderRuby();

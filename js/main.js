@@ -353,12 +353,14 @@ function renderRuby(){
 }
 
 /*===메인그래프팝업====*/
-function openModal(title, list, x, y){
+function openModal(title, list){
 
   const modal = document.getElementById("modal");
   const modalBox = document.querySelector(".modal-box");
   const modalTitle = document.getElementById("modalTitle");
   const modalList = document.getElementById("modalList");
+
+  if(!modal || !modalBox || !modalTitle || !modalList) return;
 
   modalTitle.innerText = title;
 
@@ -369,25 +371,11 @@ function openModal(title, list, x, y){
 
   modalList.innerHTML = html;
 
-  modal.style.display = "block";
+  // 🔥 중앙 고정
+  modal.style.display = "flex";
 
-  const boxWidth = 420;
-  const boxHeight = 300;
-
-  // 🔥 안전 처리
-  if(typeof x !== "number" || typeof y !== "number"){
-    // 중앙에 띄우기
-    modalBox.style.position = "fixed";
-    modalBox.style.left = "50%";
-    modalBox.style.top = "50%";
-    modalBox.style.transform = "translate(-50%, -50%)";
-    return;
-  }
-
-  const posX = Math.min(x, window.innerWidth - boxWidth);
-  const posY = Math.min(y, window.innerHeight - boxHeight);
-
-  modalBox.style.position = "fixed";
-  modalBox.style.left = posX + "px";
-  modalBox.style.top = posY + "px";
+  modalBox.style.position = "relative";
+  modalBox.style.left = "0";
+  modalBox.style.top = "0";
+  modalBox.style.transform = "none";
 }

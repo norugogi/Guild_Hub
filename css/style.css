@@ -73,7 +73,7 @@ body {
 .card {
   flex: 1;
   background: #2a2b30;
-  padding: 10px;
+  padding: 16px 10px; /* 🔥 높이 증가 */
   border-radius: 8px;
   text-align: center;
 }
@@ -165,3 +165,4 @@ th {
   margin-left:10px;
   cursor:pointer;
 }
+

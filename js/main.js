@@ -349,7 +349,6 @@ function openModal(title, list){
 
   modalTitle.innerText = title;
 
-  // 🔥 데이터 없을 때 방어
   if(!list || list.length === 0){
     modalList.innerHTML = "<div style='text-align:center; padding:20px;'>데이터 없음</div>";
     modal.style.display = "flex";

@@ -18,6 +18,8 @@ const classMap = {
 ===================== */
 function showPage(id, el){
 
+  // ❌ 기존 문제: ".page, #mainPage"
+  // ✅ 수정: .page만
   document.querySelectorAll(".page")
     .forEach(p=>p.style.display="none");
 
@@ -27,13 +29,6 @@ function showPage(id, el){
     .forEach(m=>m.classList.remove("active"));
 
   if(el) el.classList.add("active");
-
-  // 🔥 핵심 추가 (메인 복구)
-  if(id==="mainPage"){
-    setTimeout(()=>{
-      renderAll();
-    },50);
-  }
 
   if(id==="guildListPage" && players.length){
     applyListFilter();
@@ -49,17 +44,6 @@ function showPage(id, el){
 }
 
 /* =====================
-   전체 렌더 (🔥 핵심 추가)
-===================== */
-function renderAll(){
-  if(!rawData.length) return;
-
-  updateSummary(rawData);
-  buildStats(rawData);
-  initClassFilter();
-}
-
-/* =====================
    초기 로딩
 ===================== */
 document.addEventListener("DOMContentLoaded",()=>{
@@ -70,7 +54,9 @@ document.addEventListener("DOMContentLoaded",()=>{
     players = data;
     rawData = data;
 
-    renderAll();
+    updateSummary(data);
+    buildStats(data);
+    initClassFilter();
   });
 
   fetch("data/ruby_ranking.json")
@@ -222,26 +208,60 @@ function add(map,key){
 }
 
 /* =====================
-   그래프
+   그래프 (🔥 원래 기능 복구)
 ===================== */
 function renderChart(id,data){
 
   const box = document.getElementById(id);
   if(!box) return;
 
+  let entries = Object.entries(data)
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,7);
+
+  let labels = entries.map(e=>e[0]);
+  let values = entries.map(e=>e[1]);
+
   box.innerHTML = `<canvas id="${id}Chart"></canvas>`;
 
   new Chart(document.getElementById(id+"Chart"),{
     type:'bar',
     data:{
-      labels:Object.keys(data),
+      labels,
       datasets:[{
-        data:Object.values(data),
-        backgroundColor:"#4da6ff"
+        data:values,
+        backgroundColor:["#4da6ff","#ffaa00","#33cc99","#9966ff","#ff6699","#ff9933","#66ccff"],
+        borderRadius:8
       }]
     },
     options:{
-      plugins:{legend:{display:false}}
+      indexAxis:'y',
+      plugins:{legend:{display:false}},
+
+      // 🔥 팝업 복구
+      onClick: (e, elements) => {
+
+        if(elements.length === 0) return;
+
+        const index = elements[0].index;
+        const label = labels[index];
+
+        let list = [];
+
+        if(id === "classStats"){
+          list = rawData.filter(p => (classMap[p.class] || p.class) == label);
+        }
+
+        if(id === "gradeStats"){
+          list = rawData.filter(p => String(p.grade) == String(label));
+        }
+
+        if(id === "levelStats"){
+          list = rawData.filter(p => String(p.gc_level) == String(label));
+        }
+
+        openModal(label, list);
+      }
     }
   });
 }
@@ -264,11 +284,21 @@ function loadRules(){
     let html = "";
 
     Object.values(data).forEach(section=>{
-      html += `<div class="card"><b>${section.title}</b><br>`;
-      section.items.forEach(i=>{
-        html += `✔ ${i}<br>`;
+
+      html += `
+        <div class="card">
+          <div class="card-title">${section.title}</div>
+          <div class="card-body">
+      `;
+
+      section.items.forEach(item=>{
+        html += `<div class="item">✔ ${item}</div>`;
       });
-      html += `</div>`;
+
+      html += `
+          </div>
+        </div>
+      `;
     });
 
     box.innerHTML = html;
@@ -276,7 +306,7 @@ function loadRules(){
 }
 
 /* =====================
-   메인 복귀
+   메인 복귀 (🔥 핵심 수정)
 ===================== */
 function goMain(){
 
@@ -284,12 +314,14 @@ function goMain(){
 
   if(originalMainContent){
     box.innerHTML = originalMainContent;
+
+    // 🔥 핵심: 다시 초기화
+    setTimeout(()=>{
+      updateSummary(rawData);
+      buildStats(rawData);
+      initClassFilter();
+    }, 50);
   }
 
   showPage('mainPage');
-
-  // 🔥 핵심
-  setTimeout(()=>{
-    renderAll();
-  },50);
 }

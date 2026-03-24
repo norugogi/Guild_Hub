@@ -18,7 +18,7 @@ const classMap = {
 ===================== */
 function showPage(id, el){
 
-  document.querySelectorAll(".page, #mainPage")
+  document.querySelectorAll(".page")
     .forEach(p=>p.style.display="none");
 
   document.getElementById(id).style.display="block";
@@ -27,6 +27,13 @@ function showPage(id, el){
     .forEach(m=>m.classList.remove("active"));
 
   if(el) el.classList.add("active");
+
+  // 🔥 핵심 추가 (메인 복구)
+  if(id==="mainPage"){
+    setTimeout(()=>{
+      renderAll();
+    },50);
+  }
 
   if(id==="guildListPage" && players.length){
     applyListFilter();
@@ -42,6 +49,17 @@ function showPage(id, el){
 }
 
 /* =====================
+   전체 렌더 (🔥 핵심 추가)
+===================== */
+function renderAll(){
+  if(!rawData.length) return;
+
+  updateSummary(rawData);
+  buildStats(rawData);
+  initClassFilter();
+}
+
+/* =====================
    초기 로딩
 ===================== */
 document.addEventListener("DOMContentLoaded",()=>{
@@ -52,9 +70,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     players = data;
     rawData = data;
 
-    updateSummary(data);
-    buildStats(data);
-    initClassFilter();
+    renderAll();
   });
 
   fetch("data/ruby_ranking.json")
@@ -160,6 +176,7 @@ function render(list){
 
   el.innerHTML = html;
 }
+
 /* =====================
    직업 필터
 ===================== */
@@ -212,209 +229,30 @@ function renderChart(id,data){
   const box = document.getElementById(id);
   if(!box) return;
 
-  let entries = Object.entries(data)
-    .sort((a,b)=>b[1]-a[1])
-    .slice(0,7);
-
-  let labels = entries.map(e=>e[0]);
-  let values = entries.map(e=>e[1]);
-
   box.innerHTML = `<canvas id="${id}Chart"></canvas>`;
 
   new Chart(document.getElementById(id+"Chart"),{
     type:'bar',
     data:{
-      labels,
+      labels:Object.keys(data),
       datasets:[{
-        data:values,
-        backgroundColor:["#4da6ff","#ffaa00","#33cc99","#9966ff","#ff6699","#ff9933","#66ccff"],
-        borderRadius:8
+        data:Object.values(data),
+        backgroundColor:"#4da6ff"
       }]
     },
     options:{
-      indexAxis:'y',
-      plugins:{legend:{display:false}},
-
-      onClick: (e, elements) => {
-
-        if(elements.length === 0) return;
-
-        const index = elements[0].index;
-        const label = labels[index];
-
-        let list = [];
-
-        if(id === "classStats"){
-          list = rawData.filter(p => (classMap[p.class] || p.class) == label);
-        }
-
-        if(id === "gradeStats"){
-          list = rawData.filter(p => String(p.grade) == String(label));
-        }
-
-        if(id === "levelStats"){
-          list = rawData.filter(p => String(p.gc_level) == String(label));
-        }
-
-        openModal(label, list);
-      }
+      plugins:{legend:{display:false}}
     }
   });
 }
 
 /* =====================
-   결사 통계
+   규정집
 ===================== */
-function buildGuildStat(data){
-
-  const box = document.getElementById("guildStatBox");
-  if(!box) return;
-
-  let levelMap = {};
-  let classMap2 = {};
-  let gradeMap = {};
-
-  data.forEach(p=>{
-    add(levelMap,p.gc_level);
-    add(classMap2,classMap[p.class]||p.class);
-    add(gradeMap,p.grade);
-  });
-
-  box.innerHTML = `
-    <div class="stat-wrap">
-      ${makeStatCard("레벨 통계", levelMap)}
-      ${makeStatCard("직업 통계", classMap2)}
-      ${makeStatCard("토벌 통계", gradeMap)}
-    </div>
-  `;
-}
-
-function makeStatCard(title, map){
-
-  let html = `
-    <div class="stat-card">
-      <h3>${title}</h3>
-      <table>
-        <tr><th>구분</th><th>인원</th></tr>
-  `;
-
-  Object.entries(map)
-    .sort((a,b)=>b[1]-a[1])
-    .forEach(([k,v])=>{
-      html += `<tr><td>${k}</td><td>${v}</td></tr>`;
-    });
-
-  html += `
-      </table>
-    </div>
-  `;
-
-  return html;
-}
-
-/* =====================
-   루비
-===================== */
-function renderRuby(){
-
-  const table = document.getElementById("rubyTable");
-  if(!table || !rubyData.length) return;
-
-  let html="";
-
-  rubyData
-    .sort((a,b)=>b.score-a.score)
-    .forEach((p,i)=>{
-      html += `
-      <tr>
-        <td>${i+1}</td>
-        <td>${p.name}</td>
-        <td>${p.guild}</td>
-        <td>${p.score.toLocaleString()}</td>
-      </tr>`;
-    });
-
-  table.innerHTML = html;
-}
-
-/* =====================
-   팝업
-===================== */
-function openModal(title, list){
-
-  const modal = document.getElementById("modal");
-  const modalTitle = document.getElementById("modalTitle");
-  const modalList = document.getElementById("modalList");
-
-  if(!modal || !modalTitle || !modalList) return;
-
-  modalTitle.innerText = title;
-
-  if(!list || list.length === 0){
-    modalList.innerHTML = "<div style='text-align:center; padding:20px;'>데이터 없음</div>";
-    modal.style.display = "flex";
-    return;
-  }
-
-  // 🔥 원본 보호 + 정렬
-  const sortedList = [...list].sort((a,b)=>b.gc_level - a.gc_level);
-
-  let html = "";
-
-  sortedList.forEach(p=>{
-    html += `
-      <div style="
-        display:grid;
-        grid-template-columns: auto 70px 120px;
-        gap:20px;
-        justify-content:center;
-        width:fit-content;
-        margin:0 auto;
-        padding:6px 10px;
-        border-bottom:1px solid rgba(255,255,255,0.05);
-        align-items:center;
-      ">
-        <span>${p.gc_name}</span>
-        <span style="color:#ffd700;">Lv.${p.gc_level}</span>
-        <span style="opacity:0.7;">${classMap[p.class] || p.class}</span>
-      </div>
-    `;
-  });
-
-  modalList.innerHTML = html;
-  modal.style.display = "flex";
-}
-
-/* =====================
-   팝업 닫기
-===================== */
-
-// 배경 클릭 닫기
-document.getElementById("modal")?.addEventListener("click", function(e){
-  if(e.target === this){
-    this.style.display = "none";
-  }
-});
-
-// ESC 닫기
-document.addEventListener("keydown", function(e){
-  if(e.key === "Escape"){
-    closeModal();
-  }
-});
-
-// 버튼 닫기용
-function closeModal(){
-  const modal = document.getElementById("modal");
-  if(modal) modal.style.display = "none";
-}
-
-/*=====규정집 관련 추가======*/
 function loadRules(){
 
   const box = document.getElementById("mainContent");
 
-  // 🔥 최초 1회만 저장
   if(!originalMainContent){
     originalMainContent = box.innerHTML;
   }
@@ -426,27 +264,20 @@ function loadRules(){
     let html = "";
 
     Object.values(data).forEach(section=>{
-
-      html += `
-        <div class="card">
-          <div class="card-title">${section.title}</div>
-          <div class="card-body">
-      `;
-
-      section.items.forEach(item=>{
-        html += `<div class="item">✔ ${item}</div>`;
+      html += `<div class="card"><b>${section.title}</b><br>`;
+      section.items.forEach(i=>{
+        html += `✔ ${i}<br>`;
       });
-
-      html += `
-          </div>
-        </div>
-      `;
+      html += `</div>`;
     });
 
     box.innerHTML = html;
   });
 }
 
+/* =====================
+   메인 복귀
+===================== */
 function goMain(){
 
   const box = document.getElementById("mainContent");
@@ -457,8 +288,8 @@ function goMain(){
 
   showPage('mainPage');
 
-  // 🔥 핵심 (이거 추가)
+  // 🔥 핵심
   setTimeout(()=>{
-    renderAll();   // 👈 네가 쓰던 전체 렌더 함수
-  }, 50);
+    renderAll();
+  },50);
 }

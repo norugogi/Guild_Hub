@@ -358,3 +358,12 @@ function openModal(title, list){
 
   modal.style.display = "flex";
 }
+
+document.getElementById("modal")?.addEventListener("click", function(e){
+
+  // 배경 눌렀을 때만 닫힘
+  if(e.target === this){
+    this.style.display = "none";
+  }
+
+});

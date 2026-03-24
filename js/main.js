@@ -232,7 +232,7 @@ function renderChart(id,data){
 
   box.innerHTML = `<canvas id="${id}Chart"></canvas>`;
 
-  new Chart(document.getElementById(id+"Chart"),{
+  const chart = new Chart(document.getElementById(id+"Chart"),{
     type:'bar',
     data:{
       labels,
@@ -244,7 +244,32 @@ function renderChart(id,data){
     },
     options:{
       indexAxis:'y',
-      plugins:{legend:{display:false}}
+      plugins:{legend:{display:false}},
+
+      // 🔥 여기 추가 (핵심)
+      onClick: (e, elements) => {
+
+        if(elements.length === 0) return;
+
+        const index = elements[0].index;
+        const label = labels[index];
+
+        let list = [];
+
+        if(id === "classStats"){
+          list = rawData.filter(p => (classMap[p.class] || p.class) == label);
+        }
+
+        if(id === "gradeStats"){
+          list = rawData.filter(p => String(p.grade) == String(label));
+        }
+
+        if(id === "levelStats"){
+          list = rawData.filter(p => String(p.gc_level) == String(label));
+        }
+
+        openModal(label, list);
+      }
     }
   });
 }

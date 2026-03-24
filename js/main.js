@@ -72,6 +72,7 @@ function applyFilter(){
     filtered = rawData.filter(p=>p.guild_name==="CAT");
   }
 
+  // 🔥 핵심 (그래프 다시 그림)
   updateSummary(filtered);
   buildStats(filtered);
 }

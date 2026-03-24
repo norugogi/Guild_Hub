@@ -9,7 +9,7 @@ function showPage(id, el){
   el.classList.add("active");
 }
 
-/* 데이터 불러오기 */
+/* 데이터 */
 fetch("data/catdog_all_in_one.json")
 .then(res=>res.json())
 .then(data=>{
@@ -17,29 +17,12 @@ fetch("data/catdog_all_in_one.json")
   initMain(data);
 });
 
-/* 메인 계산 */
+/* 메인 데이터 */
 function initMain(data){
-
   const dog = data.filter(p=>p.guild_name==="DOG").length;
   const cat = data.filter(p=>p.guild_name==="CAT").length;
 
-  document.getElementById("dogCount").innerText = dog;
-  document.getElementById("catCount").innerText = cat;
-  document.getElementById("totalCount").innerText = dog+cat;
-
-}
-
-/* 통계 렌더 */
-function renderBars(targetId, obj){
-  const el = document.getElementById(targetId);
-  el.innerHTML = "";
-
-  Object.entries(obj).forEach(([name,val])=>{
-    el.innerHTML += `
-    <div class="bar-row">
-      <span>${name}</span>
-      <div class="bar"><div style="width:${val*5}%"></div></div>
-      <b>${val}</b>
-    </div>`;
-  });
+  document.getElementById("dog").innerText = dog;
+  document.getElementById("cat").innerText = cat;
+  document.getElementById("total").innerText = dog+cat;
 }

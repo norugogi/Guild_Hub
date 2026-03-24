@@ -355,11 +355,12 @@ function openModal(title, list){
     return;
   }
 
-  list.sort((a,b)=>b.gc_level - a.gc_level);
+  // 🔥 원본 보호 + 정렬
+  const sortedList = [...list].sort((a,b)=>b.gc_level - a.gc_level);
 
   let html = "";
 
-  list.forEach(p=>{
+  sortedList.forEach(p=>{
     html += `
       <div style="
         display:grid;

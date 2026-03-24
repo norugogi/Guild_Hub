@@ -3,6 +3,7 @@
  ***************************************/
 let rubyData = [];
 
+
 /***************************************
  * 🔥 루비 JSON fetch
  ***************************************/
@@ -87,6 +88,8 @@ function renderRuby(){
   if(!rubyData.length) return;
 
   const filters = getRubyFilters();
+  const table = document.getElementById("rubyTable");
+  if(!table) return; // 🔥 추가 (여기!)
 
   // 🔥 필터 적용
   let filtered = rubyData.filter(r => {

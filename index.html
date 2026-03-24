@@ -4,10 +4,7 @@
 <meta charset="UTF-8">
 <title>Guild Hub</title>
 <link rel="stylesheet" href="css/style.css">
-
-<!-- 🔥 [유지] Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 
 <body>
@@ -37,13 +34,11 @@
 
 </div>
 
-
-
 <!-- 메인 -->
 <div class="main">
 
-  <!-- 메인 -->
-  <div id="mainPage">
+  <!-- 메인 페이지 -->
+  <div id="mainPage" class="page">
 
     <div class="top-menu">
       <div class="top-btn" onclick="loadRules()">규정집</div>
@@ -56,42 +51,42 @@
     </div>
 
     <div class="divider"></div>
+
+    <!-- ⭐ 핵심 영역 -->
     <div id="mainContent">
-      
-    <div class="summary">
-      <div class="card"><span>DOG </span><b id="dog">-</b></div>
-      <div class="card"><span>CAT </span><b id="cat">-</b></div>
-      <div class="card"><span>총합 </span><b id="total">-</b></div>
-      <div class="card"><span>시즌상태 </span><b>농사</b></div>
-    </div>
 
-    <!-- 🔥 [추가] 필터 -->
-    <div class="stats-header">
-      <div class="stats-title">통계</div>
+      <div class="summary">
+        <div class="card"><span>DOG </span><b id="dog">-</b></div>
+        <div class="card"><span>CAT </span><b id="cat">-</b></div>
+        <div class="card"><span>총합 </span><b id="total">-</b></div>
+        <div class="card"><span>시즌상태 </span><b>농사</b></div>
+      </div>
 
-    <div class="filter-box">
-      <label><input type="radio" name="guildFilter" value="ALL" checked> 전체</label>
-      <label><input type="radio" name="guildFilter" value="DOG"> DOG</label>
-      <label><input type="radio" name="guildFilter" value="CAT"> CAT</label>
+      <div class="stats-header">
+        <div class="stats-title">통계</div>
+
+        <div class="filter-box">
+          <label><input type="radio" name="guildFilter" value="ALL" checked> 전체</label>
+          <label><input type="radio" name="guildFilter" value="DOG"> DOG</label>
+          <label><input type="radio" name="guildFilter" value="CAT"> CAT</label>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="box"><div class="title">직업 통계</div><div id="classStats"></div></div>
+        <div class="box"><div class="title">토벌 통계</div><div id="gradeStats"></div></div>
+        <div class="box"><div class="title">레벨 통계</div><div id="levelStats"></div></div>
+      </div>
+
     </div>
 
   </div>
 
-    <div class="stats">
-      <div class="box"><div class="title">직업 통계</div><div id="classStats"></div></div>
-      <div class="box"><div class="title">토벌 통계</div><div id="gradeStats"></div></div>
-      <div class="box"><div class="title">레벨 통계</div><div id="levelStats"></div></div>
-    </div>
-
-  </div>
-
-  <!-- 🔥 [수정] 결사원 리스트 구조 추가 -->
+  <!-- 결사원 리스트 -->
   <div id="guildListPage" class="page" style="display:none;">
     <h2>결사원 리스트</h2>
 
-  <!-- 🔥 필터 추가 -->
     <div class="list-filter">
-
       <select id="guildFilterSelect">
         <option value="ALL">전체</option>
         <option value="DOG">DOG</option>
@@ -101,7 +96,6 @@
       <select id="classFilterSelect">
         <option value="ALL">직업 전체</option>
       </select>
-
     </div>
 
     <table>
@@ -118,42 +112,30 @@
     </table>
   </div>
 
-  <!-- 🔥 [수정] 결사 통계 영역 -->
+  <!-- 결사 통계 -->
   <div id="guildStatPage" class="page" style="display:none;">
     <h2>결사 통계</h2>
     <div id="guildStatBox"></div>
   </div>
 
-  <!-- 기존 유지 -->
+  <!-- 공지 -->
   <div id="noticePage" class="page" style="display:none;">
-
-  <div class="notice-wrap">
-    <img src="assets/images/notice.png" alt="시즌 공지" class="notice-img">
+    <div class="notice-wrap">
+      <img src="assets/images/notice.png" class="notice-img">
+    </div>
   </div>
 
-</div>
+  <!-- 캐릭터 추적 -->
   <div id="whoPage" class="page" style="display:none;">
-  <iframe 
-    src="who.html"
-    style="
-      width:100%;
-      height:calc(100vh - 80px);
-      border:none;
-      background:transparent;
-    ">
-  </iframe>
-</div>
+    <iframe src="who.html" style="width:100%; height:calc(100vh - 80px); border:none;"></iframe>
+  </div>
+
+  <!-- 루비 공헌도 -->
   <div id="rubyPage" class="page" style="display:none;">
-  <iframe 
-    src="ruby.html"
-    style="
-      width:100%;
-      height:calc(100vh - 80px);
-      border:none;
-      background:transparent;
-    ">
-  </iframe>
-</div>
+    <iframe src="ruby.html" style="width:100%; height:calc(100vh - 80px); border:none;"></iframe>
+  </div>
+
+  <!-- 관리자 -->
   <div id="adminPage" class="page" style="display:none;"></div>
 
 </div>
@@ -169,25 +151,6 @@
   </div>
 </div>
 
-
-<!--루비페이지-->
-  <div id="rubyPage" class="page" style="display:none;">
-  <h2>루비 공헌도</h2>
-
-  <table>
-    <thead>
-      <tr>
-        <th>순위</th>
-        <th>닉네임</th>
-        <th>결사</th>
-        <th>공헌도</th>
-      </tr>
-    </thead>
-    <tbody id="rubyTable"></tbody>
-  </table>
-</div>
-  
-<!-- 🔥 [중요] JS 위치 이동 (버그 해결 핵심) -->
 <script src="js/main.js"></script>
 
 </body>

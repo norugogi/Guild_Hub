@@ -28,91 +28,53 @@ function showPage(id, el){
   if(el) el.classList.add("active");
 
   if(id==="guildListPage"){
-    applyListFilter();
+    if(players.length) applyListFilter();
   }
 
   if(id==="guildStatPage"){
-    buildGuildStat(players);
+    if(players.length) buildGuildStat(players);
   }
 
-  // 🔥 루비 페이지 진입 시
   if(id==="rubyPage"){
-    renderRuby();
+    if(rubyData.length) renderRuby();
   }
 }
 
 /* =====================
    데이터 로드
 ===================== */
-fetch("data/catdog_all_in_one.json")
-.then(res=>res.json())
-.then(data=>{
-  players = data;
-  rawData = data;
+document.addEventListener("DOMContentLoaded",()=>{
 
-  updateSummary(data);
-  buildStats(data);
-  initClassFilter();
+  // 결사 데이터
+  fetch("data/catdog_all_in_one.json")
+  .then(res=>res.json())
+  .then(data=>{
+    players = data;
+    rawData = data;
 
-  loadRuby(); // 🔥 추가
-});
+    updateSummary(data);
+    buildStats(data);
+    initClassFilter();
 
-/* =====================
-   루비 로드 (추가)
-===================== */
-function loadRuby(){
+    // 현재 통계 페이지면 실행
+    if(document.getElementById("guildStatPage")?.style.display === "block"){
+      buildGuildStat(players);
+    }
+  });
 
+  // 루비 데이터
   fetch("data/ruby_ranking.json")
   .then(res=>res.json())
   .then(data=>{
     rubyData = data;
+
+    // 현재 루비 페이지면 실행
+    if(document.getElementById("rubyPage")?.style.display === "block"){
+      renderRuby();
+    }
   });
-}
 
-/* =====================
-   루비 렌더 (추가)
-===================== */
-function renderRuby(){
-
-  const table = document.getElementById("rubyTable");
-  if(!table || !rubyData.length) return;
-
-  let html = "";
-
-  rubyData
-    .sort((a,b)=> b.score - a.score)
-    .forEach((p,i)=>{
-      html += `
-      <tr>
-        <td>${i+1}</td>
-        <td>${p.name}</td>
-        <td>${p.guild}</td>
-        <td>${p.score.toLocaleString()}</td>
-      </tr>`;
-    });
-
-  table.innerHTML = html;
-}
-
-/* =====================
-   요약
-===================== */
-function updateSummary(data){
-
-  document.getElementById("total").innerText = data.length;
-
-  let dog = data.filter(p=>p.guild_name?.includes("DOG")).length;
-  let cat = data.filter(p=>p.guild_name?.includes("CAT")).length;
-
-  document.getElementById("dog").innerText = dog;
-  document.getElementById("cat").innerText = cat;
-}
-
-/* =====================
-   메인 필터
-===================== */
-document.addEventListener("DOMContentLoaded",()=>{
-
+  // 필터 이벤트
   document.querySelectorAll("input[name='guildFilter']")
     .forEach(r=>{
       r.addEventListener("change",function(){
@@ -126,7 +88,24 @@ document.addEventListener("DOMContentLoaded",()=>{
 });
 
 /* =====================
-   메인 필터 적용
+   요약
+===================== */
+function updateSummary(data){
+
+  const total = document.getElementById("total");
+  const dog = document.getElementById("dog");
+  const cat = document.getElementById("cat");
+
+  if(!total || !dog || !cat) return;
+
+  total.innerText = data.length;
+
+  dog.innerText = data.filter(p=>p.guild_name?.includes("DOG")).length;
+  cat.innerText = data.filter(p=>p.guild_name?.includes("CAT")).length;
+}
+
+/* =====================
+   메인 필터
 ===================== */
 function applyFilter(){
 
@@ -203,6 +182,8 @@ function initClassFilter(){
   const select = document.getElementById("classFilterSelect");
   if(!select) return;
 
+  select.innerHTML = `<option value="ALL">전체</option>`;
+
   let classes = [...new Set(rawData.map(p=>classMap[p.class] || p.class))];
 
   classes.sort();
@@ -223,9 +204,9 @@ function buildStats(data){
   let levelMap={}, classMap2={}, gradeMap={};
 
   data.forEach(p=>{
-    add(levelMap,p.gc_level,p);
-    add(classMap2,classMap[p.class]||p.class,p);
-    add(gradeMap,p.grade,p);
+    add(levelMap,p.gc_level);
+    add(classMap2,classMap[p.class]||p.class);
+    add(gradeMap,p.grade);
   });
 
   renderChart("levelStats",levelMap);
@@ -233,10 +214,8 @@ function buildStats(data){
   renderChart("gradeStats",gradeMap);
 }
 
-function add(map,key,p){
-  if(!map[key]) map[key]={count:0,players:[]};
-  map[key].count++;
-  map[key].players.push(p);
+function add(map,key){
+  map[key] = (map[key] || 0) + 1;
 }
 
 /* =====================
@@ -244,15 +223,17 @@ function add(map,key,p){
 ===================== */
 function renderChart(id,data){
 
+  const box = document.getElementById(id);
+  if(!box) return;
+
   let entries = Object.entries(data)
-    .sort((a,b)=>b[1].count-a[1].count)
+    .sort((a,b)=>b[1]-a[1])
     .slice(0,7);
 
   let labels = entries.map(e=>e[0]);
-  let values = entries.map(e=>e[1].count);
+  let values = entries.map(e=>e[1]);
 
-  document.getElementById(id).innerHTML =
-    `<canvas id="${id}Chart"></canvas>`;
+  box.innerHTML = `<canvas id="${id}Chart"></canvas>`;
 
   new Chart(document.getElementById(id+"Chart"),{
     type:'bar',
@@ -260,10 +241,7 @@ function renderChart(id,data){
       labels,
       datasets:[{
         data:values,
-        backgroundColor:[
-          "#4da6ff","#ffaa00","#33cc99",
-          "#9966ff","#ff6699","#ff9933","#66ccff"
-        ],
+        backgroundColor:["#4da6ff","#ffaa00","#33cc99","#9966ff","#ff6699","#ff9933","#66ccff"],
         borderRadius:8
       }]
     },
@@ -275,25 +253,22 @@ function renderChart(id,data){
 }
 
 /* =====================
-   결사 통계 (하나만 유지)
+   결사 통계
 ===================== */
 function buildGuildStat(data){
 
-  if(!data || !data.length) return;
+  const box = document.getElementById("guildStatBox");
+  if(!box) return;
 
   let levelMap = {};
   let classMap2 = {};
   let gradeMap = {};
 
   data.forEach(p=>{
-    levelMap[p.gc_level] = (levelMap[p.gc_level]||0)+1;
-    classMap2[classMap[p.class] || p.class] =
-      (classMap2[classMap[p.class] || p.class]||0)+1;
-    gradeMap[p.grade] = (gradeMap[p.grade]||0)+1;
+    add(levelMap,p.gc_level);
+    add(classMap2,classMap[p.class]||p.class);
+    add(gradeMap,p.grade);
   });
-
-  const box = document.getElementById("guildStatBox");
-  if(!box) return;
 
   box.innerHTML = `
     <div class="stat-wrap">
@@ -302,4 +277,29 @@ function buildGuildStat(data){
       ${makeStatCard("토벌 통계", gradeMap)}
     </div>
   `;
+}
+
+/* =====================
+   루비
+===================== */
+function renderRuby(){
+
+  const table = document.getElementById("rubyTable");
+  if(!table || !rubyData.length) return;
+
+  let html="";
+
+  rubyData
+    .sort((a,b)=>b.score-a.score)
+    .forEach((p,i)=>{
+      html += `
+      <tr>
+        <td>${i+1}</td>
+        <td>${p.name}</td>
+        <td>${p.guild}</td>
+        <td>${p.score.toLocaleString()}</td>
+      </tr>`;
+    });
+
+  table.innerHTML = html;
 }

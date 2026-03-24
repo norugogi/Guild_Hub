@@ -49,11 +49,11 @@ fetch("data/catdog_all_in_one.json")
 function updateSummary(data){
   document.getElementById("total").innerText = data.length;
 
-  let dog = data.filter(p=>p.guild_name==="DOG").length;
-  let cat = data.filter(p=>p.guild_name?.includes("CAT")).length;
+let dog = data.filter(p=>p.guild_name?.includes("DOG")).length;
+let cat = data.filter(p=>p.guild_name?.includes("CAT")).length;
 
-  document.getElementById("dog").innerText = dog;
-  document.getElementById("cat").innerText = cat;
+document.getElementById("dog").innerText = dog;
+document.getElementById("cat").innerText = cat;
 }
 
 /* =====================

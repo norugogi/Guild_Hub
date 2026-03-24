@@ -407,3 +407,36 @@ function closeModal(){
   const modal = document.getElementById("modal");
   if(modal) modal.style.display = "none";
 }
+
+/*=====규정집 관련 추가======*/
+function loadRules(){
+
+  fetch("data/rules.json")
+  .then(res=>res.json())
+  .then(data=>{
+
+    const box = document.getElementById("mainContent");
+
+    let html = "";
+
+    Object.values(data).forEach(section=>{
+
+      html += `
+        <div class="card">
+          <div class="card-title">${section.title}</div>
+          <div class="card-body">
+      `;
+
+      section.items.forEach(item=>{
+        html += `<div class="item">✔ ${item}</div>`;
+      });
+
+      html += `
+          </div>
+        </div>
+      `;
+    });
+
+    box.innerHTML = html;
+  });
+}

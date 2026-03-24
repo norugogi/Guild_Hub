@@ -270,7 +270,6 @@ function renderChart(id,data){
     }
 
   // 🔥 마우스 좌표
-  const x = e.native.clientX;
   const y = e.native.clientY;
 
   openModal(label, list, x, y);

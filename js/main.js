@@ -27,16 +27,9 @@ function showPage(id, el){
 
   if(el) el.classList.add("active");
 
-  if(id==="guildListPage"){
-    if(players.length) applyListFilter();
-  }
-
-  if(id==="guildStatPage"){
-    if(players.length) buildGuildStat(players);
-  }
-
+  // 🔥 여기로 내려야 정상 동작
   if(id==="rubyPage"){
-    if(rubyData.length) renderRuby();
+    renderRuby();
   }
 }
 
@@ -288,6 +281,29 @@ function renderRuby(){
   if(!table || !rubyData.length) return;
 
   let html="";
+
+  rubyData
+    .sort((a,b)=>b.score-a.score)
+    .forEach((p,i)=>{
+      html += `
+      <tr>
+        <td>${i+1}</td>
+        <td>${p.name}</td>
+        <td>${p.guild}</td>
+        <td>${p.score.toLocaleString()}</td>
+      </tr>`;
+    });
+
+  table.innerHTML = html;
+}
+
+/*===루비랜더====*/
+function renderRuby(){
+
+  const table = document.getElementById("rubyTable");
+  if(!table || !rubyData.length) return;
+
+  let html = "";
 
   rubyData
     .sort((a,b)=>b.score-a.score)

@@ -13,24 +13,24 @@
 <div class="sidebar">
 
   <div class="menu-title">메인</div>
-  <div class="menu-item active" onclick="showPage('mainPage', this)">메인화면</div>
+  <div class="menu-item active" onclick="goMain()">메인화면</div>
 
   <div class="menu-title">공지</div>
-  <div class="menu-item" onclick="showPage('noticePage', this)">시즌 주요 공지</div>
+  <div class="menu-item" onclick="showPage('noticePage',this)">시즌 주요 공지</div>
 
   <div class="menu-title">결사</div>
-  <div class="menu-item" onclick="showPage('guildListPage', this)">결사원 리스트</div>
-  <div class="menu-item" onclick="showPage('guildStatPage', this)">결사 통계</div>
+  <div class="menu-item" onclick="showPage('guildListPage',this)">결사원 리스트</div>
+  <div class="menu-item" onclick="showPage('guildStatPage',this)">결사 통계</div>
 
   <div class="menu-title">캐릭터추적</div>
-  <div class="menu-item" onclick="showPage('whoPage', this)">너 누구야</div>
+  <div class="menu-item" onclick="showPage('whoPage',this)">너 누구야</div>
 
   <div class="menu-title">공헌도</div>
-  <div class="menu-item" onclick="showPage('rubyPage', this)">루비 공헌도</div>
-  <div class="menu-item" onclick="showPage('ratePage', this)">참여율</div>
+  <div class="menu-item" onclick="showPage('rubyPage',this)">루비 공헌도</div>
+  <div class="menu-item" onclick="showPage('ratePage',this)">참여율</div>
 
   <div class="menu-title">관리자</div>
-  <div class="menu-item" onclick="showPage('adminPage', this)">관리자</div>
+  <div class="menu-item" onclick="showPage('adminPage',this)">관리자</div>
 
 </div>
 
@@ -41,9 +41,7 @@
   <div id="mainPage" class="page">
 
     <div class="top-menu">
-      <!-- 🔥 핵심 수정 -->
-      <div class="top-btn" onclick="showPage('noticePage')">규정집</div>
-
+      <div class="top-btn" onclick="loadRules()">규정집</div>
       <div class="top-btn">참여현황</div>
       <div class="top-btn">참여율</div>
       <div class="top-btn">스펙정보</div>
@@ -54,6 +52,7 @@
 
     <div class="divider"></div>
 
+    <!-- ⭐ 핵심 영역 -->
     <div id="mainContent">
 
       <div class="summary">
@@ -86,7 +85,31 @@
   <!-- 결사원 리스트 -->
   <div id="guildListPage" class="page" style="display:none;">
     <h2>결사원 리스트</h2>
-    <tbody id="guildList"></tbody>
+
+    <div class="list-filter">
+      <select id="guildFilterSelect">
+        <option value="ALL">전체</option>
+        <option value="DOG">DOG</option>
+        <option value="CAT">CAT</option>
+      </select>
+
+      <select id="classFilterSelect">
+        <option value="ALL">직업 전체</option>
+      </select>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>결사</th>
+          <th>레벨</th>
+          <th>닉네임</th>
+          <th>토벌</th>
+          <th>직업</th>
+        </tr>
+      </thead>
+      <tbody id="guildList"></tbody>
+    </table>
   </div>
 
   <!-- 결사 통계 -->
@@ -107,15 +130,28 @@
     <iframe src="who.html" style="width:100%; height:calc(100vh - 80px); border:none;"></iframe>
   </div>
 
-  <!-- 루비 -->
+  <!-- 루비 공헌도 -->
   <div id="rubyPage" class="page" style="display:none;">
     <iframe src="ruby.html" style="width:100%; height:calc(100vh - 80px); border:none;"></iframe>
   </div>
 
+  <!-- 관리자 -->
   <div id="adminPage" class="page" style="display:none;"></div>
 
 </div>
 
+<!-- 팝업 -->
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span id="modalTitle"></span>
+      <span class="modal-close" onclick="closeModal()">✕</span>
+    </div>
+    <div id="modalList" class="modal-body"></div>
+  </div>
+</div>
+
 <script src="js/main.js"></script>
+
 </body>
 </html>

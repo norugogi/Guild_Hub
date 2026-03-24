@@ -359,3 +359,17 @@ tbody tr:nth-child(3) {
   cursor:pointer;
   font-size:18px;
 }
+
+/*==규정집==*/
+.card {
+  background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}

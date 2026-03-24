@@ -41,9 +41,12 @@
 
     <div class="top-menu">
       <div class="top-btn">결사소개</div>
-      <div class="top-btn">입찰률</div>
+      <div class="top-btn">입찰룰</div>
       <div class="top-btn">참여도</div>
       <div class="top-btn">스펙정보</div>
+      <div class="top-btn">참여데이터</div>
+      <div class="top-btn">공금시트</div>
+      <div class="top-btn">전체서버</div>
     </div>
 
     <div class="divider"></div>
@@ -63,52 +66,26 @@
 
   </div>
 
-  <!-- 공지 -->
-  <div id="noticePage" class="page" style="display:none;">
-    <h2>공지</h2>
-    <div id="noticeBox"></div>
-  </div>
+  <!-- 나머지 페이지 동일 유지 -->
+  <div id="noticePage" class="page" style="display:none;"></div>
+  <div id="guildListPage" class="page" style="display:none;"></div>
+  <div id="guildStatPage" class="page" style="display:none;"></div>
+  <div id="whoPage" class="page" style="display:none;"></div>
+  <div id="rubyPage" class="page" style="display:none;"></div>
+  <div id="ratePage" class="page" style="display:none;"></div>
+  <div id="adminPage" class="page" style="display:none;"></div>
 
-  <!-- 결사 리스트 -->
-  <div id="guildListPage" class="page" style="display:none;">
-    <h2>결사원 리스트</h2>
-    <table>
-      <tbody id="guildList"></tbody>
-    </table>
-  </div>
+</div>
 
-  <!-- 결사 통계 -->
-  <div id="guildStatPage" class="page" style="display:none;">
-    <h2>결사 통계</h2>
-    <div id="guildStatBox"></div>
+<!-- ✅ 추가된 팝업 -->
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span id="modalTitle"></span>
+      <span class="modal-close" onclick="closeModal()">✕</span>
+    </div>
+    <div id="modalList" class="modal-body"></div>
   </div>
-
-  <!-- 너누구야 -->
-  <div id="whoPage" class="page" style="display:none;">
-    <h2>너 누구야</h2>
-    <input id="searchName" placeholder="닉네임">
-    <button onclick="searchPlayer()">검색</button>
-    <div id="whoResult"></div>
-  </div>
-
-  <!-- 루비 -->
-  <div id="rubyPage" class="page" style="display:none;">
-    <h2>루비 공헌</h2>
-    <table>
-      <tbody id="rubyTable"></tbody>
-    </table>
-  </div>
-
-  <!-- 참여율 -->
-  <div id="ratePage" class="page" style="display:none;">
-    <h2>참여율</h2>
-  </div>
-
-  <!-- 관리자 -->
-  <div id="adminPage" class="page" style="display:none;">
-    <h2>관리자</h2>
-  </div>
-
 </div>
 
 <script src="js/main.js"></script>

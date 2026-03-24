@@ -145,25 +145,26 @@ function render(list){
 
   let html="";
 
-  list.forEach(p=>{
-  html += `
-    <div style="
-      display:grid;
-      grid-template-columns: 1fr 80px 120px;
-      padding:6px 0;
-      border-bottom:1px solid rgba(255,255,255,0.05);
-      align-items:center;
-    ">
-      <span>${p.gc_name}</span>
-      <span>Lv.${p.gc_level}</span>
-      <span>${classMap[p.class] || p.class}</span>
-    </div>
-  `;
-});
+   list.forEach(p=>{
+    html += `
+      <div style="
+        display:grid;
+        grid-template-columns: 1fr 80px 120px;
+        padding:6px 0;
+        border-bottom:1px solid rgba(255,255,255,0.05);
+        align-items:center;
+      ">
+        <span>${p.gc_name}</span>
+        <span>Lv.${p.gc_level}</span>
+        <span>${classMap[p.class] || p.class}</span>
+      </div>
+    `;
+  });
 
-  el.innerHTML = html;
+  modalList.innerHTML = html;
+
+  modal.style.display = "flex";
 }
-
 /* =====================
    직업 필터
 ===================== */

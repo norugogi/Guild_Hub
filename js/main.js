@@ -367,3 +367,8 @@ document.getElementById("modal")?.addEventListener("click", function(e){
   }
 
 });
+
+function closeModal(){
+  const modal = document.getElementById("modal");
+  if(modal) modal.style.display = "none";
+}

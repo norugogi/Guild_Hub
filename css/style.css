@@ -154,3 +154,14 @@ th {
   max-height: 400px;
   overflow: auto;
 }
+.stats-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.filter-box label{
+  margin-left:10px;
+  cursor:pointer;
+}

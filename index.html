@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-<title>DOG & CAT</title>
+<title>DOG & CAT Guild Hub</title>
 
 <style>
 body {
@@ -105,47 +105,66 @@ tbody tr:hover {
   margin-bottom: 10px;
 }
 
-select {
+select, input, button {
   background: #2a2b30;
   color: #fff;
   border: none;
   padding: 6px;
-  margin: 0 4px;
+  margin: 4px;
 }
 
-#rubyPage { display:none; }
+button {
+  cursor: pointer;
+}
 </style>
 </head>
 
 <body>
 
-<!-- 메뉴 -->
+<!-- 사이드바 -->
 <div class="sidebar">
 
-  <div class="menu-title">DOG & CAT 결사원</div>
-  <div class="menu-item active" onclick="showAll(); menuClick(this)">전체보기</div>
-  <div class="menu-item" onclick="showDOG(); menuClick(this)">DOG 결사원</div>
-  <div class="menu-item" onclick="showCAT(); menuClick(this)">CAT 결사원</div>
+  <div class="menu-title">메인</div>
+  <div class="menu-item active" onclick="showPage('mainPage', this)">대시보드</div>
 
-  <div class="menu-title">카드 프로필(클릭X)</div>
-  <div class="menu-item" onclick="goCards()">카드 프로필</div>
+  <div class="menu-title">공지</div>
+  <div class="menu-item" onclick="showPage('noticePage', this)">시즌 주요 공지</div>
 
-  <div class="menu-title">결사 통계</div>
-  <div class="menu-item" onclick="openStats()">통계 보기</div>
+  <div class="menu-title">결사</div>
+  <div class="menu-item" onclick="showPage('guildPage', this)">결사원 리스트</div>
 
-  <div class="menu-title">루비 공헌</div>
-  <div class="menu-item" onclick="showRuby(); menuClick(this)">루비 공헌 순위</div>
+  <div class="menu-title">캐릭터</div>
+  <div class="menu-item" onclick="showPage('whoPage', this)">너 누구야</div>
+
+  <div class="menu-title">통계</div>
+  <div class="menu-item" onclick="showPage('statsPage', this)">통계 보기</div>
+
+  <div class="menu-title">공헌도</div>
+  <div class="menu-item" onclick="showPage('rubyPage', this)">루비 공헌</div>
+
+  <div class="menu-title">관리자</div>
+  <div class="menu-item" onclick="showPage('adminPage', this)">관리자</div>
 
 </div>
 
-<!-- 메인 -->
+<!-- 메인 영역 -->
 <div class="main">
 
   <!-- 메인 -->
   <div id="mainPage">
+    <div class="title">DOG & CAT Guild Hub</div>
+    <div class="sub">메인 대시보드 (데이터 연결 예정)</div>
+  </div>
 
-    <div class="title">DOG & CAT 결사원 리스트</div>
-    <div class="sub">갱신 날짜: -<br>서버: 아민타5</div>
+  <!-- 공지 -->
+  <div id="noticePage" style="display:none;">
+    <div class="title">시즌 주요 공지</div>
+    <div class="center">공지 데이터 연결 예정</div>
+  </div>
+
+  <!-- 결사 -->
+  <div id="guildPage" style="display:none;">
+    <div class="title">결사원 리스트</div>
 
     <table>
       <thead>
@@ -157,17 +176,33 @@ select {
           <th>토벌</th>
         </tr>
       </thead>
-      <tbody id="playerList"></tbody>
+      <tbody id="guildList"></tbody>
     </table>
+  </div>
 
+  <!-- 너누구야 -->
+  <div id="whoPage" style="display:none;">
+    <div class="title">너 누구야</div>
+
+    <div class="center">
+      <input id="searchName" placeholder="닉네임 입력">
+      <button onclick="searchPlayer()">검색</button>
+    </div>
+
+    <div id="whoResult" class="center"></div>
+  </div>
+
+  <!-- 통계 -->
+  <div id="statsPage" style="display:none;">
+    <div class="title">통계</div>
+    <div class="center">통계 데이터 연결 예정</div>
   </div>
 
   <!-- 루비 -->
-  <div id="rubyPage">
+  <div id="rubyPage" style="display:none;">
 
     <div class="title">루비 공헌 순위</div>
 
-    <!-- 필터 (JS가 찾는 id 그대로 유지) -->
     <div class="center">
       <select id="groupFilter">
         <option value="all">전체</option>
@@ -179,7 +214,6 @@ select {
       <select id="weekFilter"></select>
     </div>
 
-    <!-- 게이지 -->
     <div class="bar-wrap">
       <div id="rubyBar" class="bar"></div>
     </div>
@@ -187,7 +221,6 @@ select {
     <div class="center" id="rubyText"></div>
     <div class="center" id="rubyPercent"></div>
 
-    <!-- 테이블 -->
     <table>
       <thead>
         <tr>
@@ -205,18 +238,83 @@ select {
 
   </div>
 
+  <!-- 관리자 -->
+  <div id="adminPage" style="display:none;">
+    <div class="title">관리자</div>
+    <div class="center">관리 기능 예정</div>
+  </div>
+
 </div>
 
+<!-- JS -->
 <script>
-function menuClick(el){
+let allPlayers = [];
+
+/* 페이지 전환 */
+function showPage(pageId, el){
+  document.querySelectorAll(".main > div").forEach(p=>{
+    p.style.display = "none";
+  });
+
+  document.getElementById(pageId).style.display = "block";
+
   document.querySelectorAll(".menu-item").forEach(e=>{
     e.classList.remove("active");
   });
+
   el.classList.add("active");
+}
+
+/* JSON 불러오기 */
+fetch("https://raw.githubusercontent.com/norugogi/prasia-data/main/all_servers_ranking.json")
+.then(res => res.json())
+.then(data => {
+  allPlayers = data;
+  renderGuild(data);
+});
+
+/* 결사 리스트 */
+function renderGuild(data){
+  const tbody = document.getElementById("guildList");
+  tbody.innerHTML = "";
+
+  data.slice(0, 100).forEach(p=>{
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${p.guild_name || "-"}</td>
+      <td>${p.gc_name}</td>
+      <td>${p.gc_level}</td>
+      <td>${p.class}</td>
+      <td>${p.string_map?.grade || "-"}</td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+
+/* 너누구야 */
+function searchPlayer(){
+  const name = document.getElementById("searchName").value.trim();
+
+  if(!name){
+    alert("닉네임 입력");
+    return;
+  }
+
+  const result = allPlayers.find(p => p.gc_name === name);
+
+  if(!result){
+    document.getElementById("whoResult").innerText = "찾을 수 없음";
+    return;
+  }
+
+  document.getElementById("whoResult").innerText =
+    `${result.gc_name} | Lv.${result.gc_level} | ${result.class} | ${result.guild_name}`;
 }
 </script>
 
-<script src="script.js"></script>
+<!-- 기존 루비 -->
 <script src="ruby.js"></script>
 
 </body>

@@ -2,6 +2,7 @@ let players = [];
 let rawData = [];
 let rubyData = [];
 let currentFilter = "ALL";
+let originalMainContent = "";
 
 const classMap = {
   AbyssRevenant:"심연추방자",
@@ -411,11 +412,16 @@ function closeModal(){
 /*=====규정집 관련 추가======*/
 function loadRules(){
 
+  const box = document.getElementById("mainContent");
+
+  // 🔥 최초 1회만 저장
+  if(!originalMainContent){
+    originalMainContent = box.innerHTML;
+  }
+
   fetch("data/rules.json")
   .then(res=>res.json())
   .then(data=>{
-
-    const box = document.getElementById("mainContent");
 
     let html = "";
 
@@ -439,4 +445,15 @@ function loadRules(){
 
     box.innerHTML = html;
   });
+}
+
+function goMain(){
+
+  const box = document.getElementById("mainContent");
+
+  if(originalMainContent){
+    box.innerHTML = originalMainContent;
+  }
+
+  showPage('mainPage');
 }

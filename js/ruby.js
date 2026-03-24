@@ -7,13 +7,14 @@ let rubyData = [];
 /***************************************
  * 🔥 루비 JSON fetch
  ***************************************/
-fetch("https://raw.githubusercontent.com/norugogi/dogcat-ranking/main/ruby_ranking.json")
+fetch("data/ruby_ranking.json")
 .then(res => res.json())
 .then(data => {
-  rubyData = data.data;
-  console.log("루비 데이터 로드 완료", rubyData);
+
+  rubyData = data.data || data;
 
   initRubyFilters();
+
 });
 
 

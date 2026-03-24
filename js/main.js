@@ -26,8 +26,15 @@ function showPage(id, el){
 
   if(el) el.classList.add("active");
 
-  if(id==="guildListPage") render(players);
-  if(id==="guildStatPage") buildGuildStat(players);
+  // 🔥 리스트 페이지
+  if(id==="guildListPage"){
+    applyListFilter();
+  }
+
+  // 🔥 통계 페이지
+  if(id==="guildStatPage"){
+    buildGuildStat(players);
+  }
 }
 
 /* =====================
@@ -41,25 +48,45 @@ fetch("data/catdog_all_in_one.json")
 
   updateSummary(data);
   buildStats(data);
+  initClassFilter(); // 🔥 추가
 });
 
 /* =====================
    요약
 ===================== */
 function updateSummary(data){
+
   document.getElementById("total").innerText = data.length;
 
-let dog = data.filter(p=>p.guild_name?.includes("DOG")).length;
-let cat = data.filter(p=>p.guild_name?.includes("CAT")).length;
+  let dog = data.filter(p=>p.guild_name?.includes("DOG")).length;
+  let cat = data.filter(p=>p.guild_name?.includes("CAT")).length;
 
-document.getElementById("dog").innerText = dog;
-document.getElementById("cat").innerText = cat;
+  document.getElementById("dog").innerText = dog;
+  document.getElementById("cat").innerText = cat;
 }
 
 /* =====================
-   필터
+   메인 필터 (라디오)
 ===================== */
+document.addEventListener("DOMContentLoaded",()=>{
 
+  document.querySelectorAll("input[name='guildFilter']")
+    .forEach(r=>{
+      r.addEventListener("change",function(){
+
+        currentFilter = this.value;
+        applyFilter();
+      });
+    });
+
+  // 🔥 리스트 필터 이벤트
+  document.getElementById("guildFilterSelect")?.addEventListener("change",applyListFilter);
+  document.getElementById("classFilterSelect")?.addEventListener("change",applyListFilter);
+});
+
+/* =====================
+   메인 필터 적용
+===================== */
 function applyFilter(){
 
   let filtered = rawData;
@@ -69,16 +96,44 @@ function applyFilter(){
   }
 
   if(currentFilter==="CAT"){
-    filtered = rawData.filter(p=>p.guild_name==="CAT" || p.guild_name==="CATT");
+    filtered = rawData.filter(p=>p.guild_name?.includes("CAT"));
   }
 
-  // 🔥 핵심 (그래프 다시 그림)
   updateSummary(filtered);
   buildStats(filtered);
 }
 
 /* =====================
-   리스트
+   리스트 필터 (핵심)
+===================== */
+function applyListFilter(){
+
+  let guild = document.getElementById("guildFilterSelect")?.value;
+  let cls = document.getElementById("classFilterSelect")?.value;
+
+  let filtered = rawData;
+
+  // 결사 필터
+  if(guild === "DOG"){
+    filtered = filtered.filter(p=>p.guild_name==="DOG");
+  }
+
+  if(guild === "CAT"){
+    filtered = filtered.filter(p=>p.guild_name?.includes("CAT"));
+  }
+
+  // 직업 필터
+  if(cls !== "ALL"){
+    filtered = filtered.filter(p=>
+      (classMap[p.class] || p.class) === cls
+    );
+  }
+
+  render(filtered);
+}
+
+/* =====================
+   리스트 렌더
 ===================== */
 function render(list){
 
@@ -90,14 +145,35 @@ function render(list){
   list.forEach(p=>{
     html += `
     <tr>
+      <td>${p.guild_name}</td>
       <td>${p.gc_level}</td>
       <td>${p.gc_name}</td>
+      <td>${p.grade}</td>
       <td>${classMap[p.class] || p.class}</td>
-      <td>${p.guild_name}</td>
     </tr>`;
   });
 
   el.innerHTML = html;
+}
+
+/* =====================
+   직업 필터 생성
+===================== */
+function initClassFilter(){
+
+  const select = document.getElementById("classFilterSelect");
+  if(!select) return;
+
+  let classes = [...new Set(rawData.map(p=>classMap[p.class] || p.class))];
+
+  classes.sort();
+
+  classes.forEach(c=>{
+    let opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    select.appendChild(opt);
+  });
 }
 
 /* =====================
@@ -222,29 +298,3 @@ function closeModal(){
 window.onclick=e=>{
   if(e.target.id==="modal") closeModal();
 };
-function initFilter(){
-
-  const radios = document.querySelectorAll("input[name='guildFilter']");
-
-  radios.forEach(r=>{
-    r.addEventListener("change",function(){
-
-      currentFilter = this.value;
-
-      applyFilter();
-    });
-  });
-}
-
-// 🔥 데이터 로드 이후 실행
-fetch("data/catdog_all_in_one.json")
-.then(res=>res.json())
-.then(data=>{
-  players = data;
-  rawData = data;
-
-  updateSummary(data);
-  buildStats(data);
-
-  initFilter(); // 🔥 여기서 실행
-});

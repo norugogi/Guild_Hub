@@ -18,8 +18,6 @@ const classMap = {
 ===================== */
 function showPage(id, el){
 
-  // ❌ 기존 문제: ".page, #mainPage"
-  // ✅ 수정: .page만
   document.querySelectorAll(".page")
     .forEach(p=>p.style.display="none");
 
@@ -30,16 +28,17 @@ function showPage(id, el){
 
   if(el) el.classList.add("active");
 
-  if(id==="guildListPage" && players.length){
-    applyListFilter();
+  // 🔥 핵심: 타이밍 보정
+  if(id==="guildListPage"){
+    setTimeout(()=>applyListFilter(), 0);
   }
 
-  if(id==="guildStatPage" && players.length){
-    buildGuildStat(players);
+  if(id==="guildStatPage"){
+    setTimeout(()=>buildGuildStat(players), 0);
   }
 
-  if(id==="rubyPage" && rubyData.length){
-    renderRuby();
+  if(id==="rubyPage"){
+    setTimeout(()=>renderRuby(), 0);
   }
 }
 

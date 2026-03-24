@@ -276,6 +276,31 @@ function buildGuildStat(data){
   `;
 }
 
+/*여기*/
+function makeStatCard(title, map){
+
+  let html = `
+    <div class="stat-card">
+      <h3>${title}</h3>
+      <table>
+        <tr><th>구분</th><th>인원</th></tr>
+  `;
+
+  Object.entries(map)
+    .sort((a,b)=>b[1]-a[1])
+    .forEach(([k,v])=>{
+      html += `<tr><td>${k}</td><td>${v}</td></tr>`;
+    });
+
+  html += `
+      </table>
+    </div>
+  `;
+
+  return html;
+}
+
+
 /* =====================
    루비
 ===================== */

@@ -245,31 +245,26 @@ function renderChart(id,data){
   });
 }
 
-/* =====================
-   결사 통계
-===================== */
+/* =========="결사통계"============== */
 function buildGuildStat(data){
 
-  const box = document.getElementById("guildStatBox");
-  if(!box) return;
-
-  let levelMap = {};
-  let classMap2 = {};
-  let gradeMap = {};
+  let map={};
 
   data.forEach(p=>{
-    add(levelMap,p.gc_level);
-    add(classMap2,classMap[p.class]||p.class);
-    add(gradeMap,p.grade);
+    map[p.gc_level]=(map[p.gc_level]||0)+1;
   });
 
-  box.innerHTML = `
-    <div class="stat-wrap">
-      ${makeStatCard("레벨 통계", levelMap)}
-      ${makeStatCard("직업 통계", classMap2)}
-      ${makeStatCard("토벌 통계", gradeMap)}
-    </div>
-  `;
+  let html="<table><tr><th>레벨</th><th>인원</th></tr>";
+
+  Object.entries(map)
+    .sort((a,b)=>b[1]-a[1])
+    .forEach(e=>{
+      html+=`<tr><td>${e[0]}</td><td>${e[1]}</td></tr>`;
+    });
+
+  html+="</table>";
+
+  document.getElementById("guildStatBox").innerHTML=html;
 }
 
 /* =====================

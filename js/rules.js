@@ -8,16 +8,17 @@ fetch("data/rules.json")
 
   Object.values(data).forEach(section=>{
 
-    html += `
+   html += `
       <div class="card">
-        <h3>${section.title}</h3>
-    `;
+        <div class="card-title">${section.title}</div>
+        <div class="card-body">
+  `;
 
     section.items.forEach(item=>{
       html += `<div class="item">✔ ${item}</div>`;
     });
 
-    html += `</div>`;
+    html += `</div></div>`;
   });
 
   box.innerHTML = html;

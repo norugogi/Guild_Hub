@@ -267,6 +267,7 @@ function renderChart(id,data){
       if(id === "levelStats"){
         list = rawData.filter(p => String(p.gc_level) == String(label));
       }
+    }
 
   // 🔥 마우스 좌표
   const x = e.native.clientX;

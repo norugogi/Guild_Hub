@@ -343,12 +343,10 @@ tbody tr:nth-child(3) {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 100%; */
 }
 
 .notice-img {
-  max-width: 90%;
-  max-height: 80vh;
+  max-width: 95%;
+  max-height: 90vh;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }

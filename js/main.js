@@ -147,21 +147,13 @@ function render(list){
 
   list.forEach(p=>{
     html += `
-      <div style="
-        display:grid;
-        grid-template-columns: auto 70px 120px;
-        gap:20px;
-        justify-content:center;
-        width:fit-content;
-        margin:0 auto;
-        padding:6px 10px;
-        border-bottom:1px solid rgba(255,255,255,0.05);
-        align-items:center;
-      ">
-        <span>${p.gc_name}</span>
-        <span style="color:#ffd700;">Lv.${p.gc_level}</span>
-        <span style="opacity:0.7;">${classMap[p.class] || p.class}</span>
-      </div>
+      <tr>
+        <td>${p.guild_name || ""}</td>
+        <td>Lv.${p.gc_level}</td>
+        <td>${p.gc_name}</td>
+        <td>${p.grade || ""}</td>
+        <td>${classMap[p.class] || p.class}</td>
+      </tr>
     `;
   });
 

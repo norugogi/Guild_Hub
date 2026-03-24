@@ -1,77 +1,101 @@
-<div id="mainPage">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Guild Hub</title>
 
-  <!-- 상단 가로 메뉴 -->
-  <div class="top-menu">
-    <div class="top-btn">결사소개</div>
-    <div class="top-btn">입찰률</div>
-    <div class="top-btn">참여도</div>
-    <div class="top-btn">스펙정보</div>
-    <div class="top-btn">참여데이터</div>
-    <div class="top-btn">공급시트</div>
-    <div class="top-btn">전체서버 통계</div>
-    <div class="top-btn">관리자메뉴</div>
-  </div>
+<link rel="stylesheet" href="css/main.css">
 
-  <!-- 요약 카드 -->
-  <div class="summary">
-    <div class="card"><span>DOG</span><b>50</b></div>
-    <div class="card"><span>CAT</span><b>45</b></div>
-    <div class="card"><span>총합</span><b>95</b></div>
-    <div class="card"><span>시즌상태</span><b class="green">농사</b></div>
-  </div>
+</head>
 
-  <!-- 통계 영역 -->
-  <div class="stats">
+<body>
 
-    <!-- 직업 -->
-    <div class="stat-box">
-      <div class="stat-title">직업 통계</div>
+<!-- 사이드바 -->
+<div class="sidebar">
 
-      <div class="bar-row">
-        <span>심연추방자</span>
-        <div class="bar"><div style="width:30%"></div></div>
-        <b>3명</b>
-      </div>
+  <div class="menu-title">메인</div>
+  <div class="menu-item active" onclick="showPage('mainPage',this)">메인화면</div>
 
-      <div class="bar-row">
-        <span>주문각인사</span>
-        <div class="bar"><div style="width:80%"></div></div>
-        <b>23명</b>
-      </div>
+  <div class="menu-title">공지</div>
+  <div class="menu-item" onclick="showPage('noticePage',this)">시즌 주요 공지</div>
 
+  <div class="menu-title">결사</div>
+  <div class="menu-item" onclick="showPage('guildPage',this)">결사원 리스트</div>
+
+</div>
+
+<!-- 메인 -->
+<div class="main">
+
+  <!-- 메인 -->
+  <div id="mainPage">
+
+    <!-- 상단 가로 메뉴 -->
+    <div class="top-menu">
+      <div class="top-btn">결사소개</div>
+      <div class="top-btn">입찰률</div>
+      <div class="top-btn">참여도</div>
+      <div class="top-btn">스펙정보</div>
+      <div class="top-btn">참여데이터</div>
+      <div class="top-btn">공급시트</div>
+      <div class="top-btn">전체서버 통계</div>
+      <div class="top-btn">관리자메뉴</div>
     </div>
 
-    <!-- 토벌 -->
-    <div class="stat-box">
-      <div class="stat-title">토벌 통계</div>
-
-      <div class="bar-row">
-        <span>25단계</span>
-        <div class="bar"><div style="width:40%"></div></div>
-        <b>12명</b>
-      </div>
-
+    <!-- 요약 카드 -->
+    <div class="summary">
+      <div class="card"><span>DOG</span><b id="dogCount">-</b></div>
+      <div class="card"><span>CAT</span><b id="catCount">-</b></div>
+      <div class="card"><span>총합</span><b id="totalCount">-</b></div>
+      <div class="card"><span>시즌상태</span><b class="green">농사</b></div>
     </div>
 
-    <!-- 레벨 -->
-    <div class="stat-box">
-      <div class="stat-title">레벨 통계</div>
-
-      <div class="bar-row">
-        <span>90+</span>
-        <div class="bar"><div style="width:70%"></div></div>
-        <b>30명</b>
+    <!-- 통계 -->
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-title">직업 통계</div>
+        <div id="classStats"></div>
       </div>
 
+      <div class="stat-box">
+        <div class="stat-title">토벌 통계</div>
+        <div id="gradeStats"></div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-title">레벨 통계</div>
+        <div id="levelStats"></div>
+      </div>
+    </div>
+
+    <div class="bottom-box">
+      각종 데이터 영역
     </div>
 
   </div>
 
-  <!-- 하단 데이터 -->
-  <div class="bottom-box">
-    각종 데이터 영역 (추후 연결)
+  <!-- 공지 -->
+  <div id="noticePage" style="display:none;">
+    <div class="title">공지</div>
+    <div id="noticeBox"></div>
+  </div>
+
+  <!-- 결사 -->
+  <div id="guildPage" style="display:none;">
+    <div class="title">결사원 리스트</div>
+    <table>
+      <thead>
+        <tr>
+          <th>결사</th><th>닉네임</th><th>레벨</th>
+        </tr>
+      </thead>
+      <tbody id="guildList"></tbody>
+    </table>
   </div>
 
 </div>
 
+<script src="js/main.js"></script>
 
+</body>
+</html>

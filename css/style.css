@@ -68,6 +68,11 @@ body {
   margin: 20px 0;
 }
 
+/* ===== 상단 요약 박스 ===== */
+.top-summary {
+  margin-bottom: 20px;
+}
+
 /* summary */
 .summary {
   display: flex;
@@ -101,10 +106,6 @@ body {
 .stats {
   display: flex;
   gap: 10px;
-}
-
-.stat-wrap {
-  margin-top: 20px;
 }
 
 .box {

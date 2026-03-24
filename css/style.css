@@ -182,3 +182,12 @@ th {
   border:none;
   border-radius:6px;
 }
+
+#guildStatPage{
+  padding:20px;
+}
+
+.stat-wrap{
+  display:flex;
+  gap:20px;
+}

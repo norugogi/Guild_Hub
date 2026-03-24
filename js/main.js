@@ -410,4 +410,43 @@ function closeModal(){
   if(modal) modal.style.display = "none";
 }
 
-/*== 정상동작버전 ==*/
+/*== 상단메뉴연결 ==*/
+// 🔥 새창 (결사시트)
+function openNewTab(){
+  window.open(
+    "https://docs.google.com/spreadsheets/d/13W8sK_u_MIgDGGutfKIXViYHfK3E4DTjQBL4YPt4SSI/edit?usp=sharing",
+    "_blank"
+  );
+}
+
+
+// 🔥 팝업 (공통)
+function openSheet(url){
+  const modal = document.getElementById("sheetModal");
+  const frame = document.getElementById("sheetFrame");
+
+  frame.src = ""; // 초기화 (깜빡임 방지)
+  modal.style.display = "block";
+
+  setTimeout(()=>{
+    frame.src = url;
+  }, 100);
+}
+
+
+// 🔥 닫기
+function closeSheet(){
+  const modal = document.getElementById("sheetModal");
+  const frame = document.getElementById("sheetFrame");
+
+  modal.style.display = "none";
+  frame.src = "";
+}
+
+
+// 🔥 ESC 닫기
+window.addEventListener("keydown", e=>{
+  if(e.key === "Escape"){
+    closeSheet();
+  }
+});

@@ -84,3 +84,16 @@ function renderTable(list){
 document.addEventListener("keydown", e => {
   if(e.key === "Enter") searchPlayer();
 });
+
+/* ==== 디버깅 ==== */
+  function renderTable(list){
+
+  console.log("list:", list);
+  console.log("배열인가?", Array.isArray(list));
+
+  const tbody = document.getElementById("whoBody");
+
+  ...
+}
+
+  

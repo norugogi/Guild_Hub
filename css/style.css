@@ -90,3 +90,58 @@ body {
   background:#252733;
   padding:10px;
 }
+/* ===== 팝업 ===== */
+
+.modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  backdrop-filter:blur(4px);
+  z-index:999;
+}
+
+.modal-box{
+  width:420px;
+  max-height:70%;
+  background:rgba(30,30,30,0.95);
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  overflow:hidden;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
+  font-weight:bold;
+}
+
+.modal-close{
+  cursor:pointer;
+}
+
+.modal-body{
+  max-height:400px;
+  overflow:auto;
+  font-size:14px;
+  line-height:1.6;
+}
+
+/* 통계 클릭 */
+.chart-item{
+  display:flex;
+  justify-content:space-between;
+  padding:6px;
+  cursor:pointer;
+}
+
+.chart-item:hover{
+  background:#444;
+}

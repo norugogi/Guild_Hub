@@ -28,17 +28,16 @@ function showPage(id, el){
 
   if(el) el.classList.add("active");
 
-  // 🔥 핵심: 타이밍 보정
-  if(id==="guildListPage"){
-    setTimeout(()=>applyListFilter(), 0);
+  if(id==="guildListPage" && players.length){
+    applyListFilter();
   }
 
-  if(id==="guildStatPage"){
-    setTimeout(()=>buildGuildStat(players), 0);
+  if(id==="guildStatPage" && players.length){
+    buildGuildStat(players);
   }
 
-  if(id==="rubyPage"){
-    setTimeout(()=>renderRuby(), 0);
+  if(id==="rubyPage" && rubyData.length){
+    renderRuby();
   }
 }
 
@@ -317,10 +316,9 @@ function goMain(){
 
   showPage('mainPage');
 
-  // 🔥 핵심 추가 (이거 하나)
   setTimeout(()=>{
     updateSummary(rawData);
     buildStats(rawData);
     initClassFilter();
-  }, 0);
+  },0);
 }

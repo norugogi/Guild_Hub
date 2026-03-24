@@ -14,7 +14,6 @@ fetch("https://raw.githubusercontent.com/norugogi/dogcat-ranking/main/ruby_ranki
   console.log("루비 데이터 로드 완료", rubyData);
 
   initRubyFilters();
-  renderRuby();
 });
 
 

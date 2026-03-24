@@ -152,6 +152,20 @@
 
 <script src="js/main.js"></script>
 
+<div id="sheetModal" class="modal" onclick="closeSheet()">
+  <div class="modal-box sheet-box" onclick="event.stopPropagation()">
+
+    <div class="sheet-header">
+      <span>📊 시트 보기</span>
+      <div class="close-btn" onclick="closeSheet()">✕</div>
+    </div>
+
+    <iframe id="sheetFrame"></iframe>
+
+  </div>
+</div>
+
+  
 </body>
 </html>
 

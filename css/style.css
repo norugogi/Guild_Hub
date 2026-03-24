@@ -191,3 +191,27 @@ th {
   display:flex;
   gap:20px;
 }
+
+.stat-wrap{
+  display:flex;
+  gap:20px;
+}
+
+.stat-card{
+  flex:1;
+  background:#2a2b30;
+  border-radius:10px;
+  padding:15px;
+  min-width:300px;
+}
+
+.stat-title{
+  text-align:center;
+  margin-bottom:10px;
+  font-weight:bold;
+}
+
+.stat-table{
+  max-height:400px;
+  overflow-y:auto;
+}

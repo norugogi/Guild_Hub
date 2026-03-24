@@ -169,4 +169,16 @@ th {
   margin-left:10px;
   cursor:pointer;
 }
+.list-filter{
+  margin-bottom:10px;
+  display:flex;
+  gap:10px;
+}
 
+.list-filter select{
+  padding:6px;
+  background:#2a2b30;
+  color:white;
+  border:none;
+  border-radius:6px;
+}

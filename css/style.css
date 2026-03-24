@@ -73,9 +73,13 @@ body {
 .card {
   flex: 1;
   background: #2a2b30;
-  padding: 16px 10px; /* 🔥 높이 증가 */
+  padding: 16px 10px;
   border-radius: 8px;
-  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 🔥 수직 중앙 */
+  align-items: center;     /* 🔥 수평 중앙 */
 }
 
 /* 필터 */

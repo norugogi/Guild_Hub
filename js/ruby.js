@@ -111,7 +111,12 @@ function renderRuby(){
   const text = document.getElementById("rubyText");
   const percentText = document.getElementById("rubyPercent");
 
-  if(bar) bar.style.width = percent + "%";
+  if(bar){
+    bar.style.width = "0%";  // 초기화
+    setTimeout(()=>{
+      bar.style.width = percent + "%";
+    }, 100);
+  }
   if(text) text.innerText = `${totalSum.toLocaleString()} / ${goal.toLocaleString()}`;
   if(percentText) percentText.innerText = percent.toFixed(1) + "%";
 

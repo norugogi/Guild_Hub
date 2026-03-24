@@ -96,6 +96,9 @@ body {
   margin: 5% auto;
   padding: 20px;
   border-radius: 10px;
+
+  max-height: 80vh;     /* 🔥 핵심 */
+  overflow-y: auto;     /* 🔥 스크롤 생성 */
 }
 
 .close {

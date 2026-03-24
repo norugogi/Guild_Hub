@@ -361,61 +361,28 @@ function openModal(title, list){
     return;
   }
 
+  // 🔥 정렬 + 깔끔 출력
+  const sorted = [...list].sort((a,b)=>b.gc_level - a.gc_level);
+
   let html = "";
 
-  list.forEach(p=>{
+  sorted.forEach(p=>{
     html += `
       <div style="
-        display:grid;
-        grid-template-columns: auto 80px 120px;
-        gap:10px;
-        justify-content:center;
-        padding:4px;
+        display:flex;
+        justify-content:space-between;
+        width:300px;
+        margin:4px auto;
+        padding:4px 8px;
+        border-bottom:1px solid rgba(255,255,255,0.1);
       ">
         <span>${p.gc_name}</span>
-        <span>Lv.${p.gc_level}</span>
-        <span>${classMap[p.class] || p.class}</span>
+        <span style="color:#ffd700;">Lv.${p.gc_level}</span>
+        <span style="opacity:0.7;">${classMap[p.class] || p.class}</span>
       </div>
     `;
   });
 
   modalList.innerHTML = html;
   modal.style.display = "flex";
-}
-
-function closeModal(){
-  const modal = document.getElementById("modal");
-  if(modal) modal.style.display = "none";
-}
-
-/*고잉*/
-function goMain(){
-
-  // 1. 모든 페이지 숨기기
-  document.querySelectorAll(".page")
-    .forEach(p=>p.style.display="none");
-
-  // 2. 메인 페이지 강제 표시
-  const main = document.getElementById("mainPage");
-  if(main) main.style.display = "block";
-
-  // 3. 메뉴 active 처리
-  document.querySelectorAll(".menu-item")
-    .forEach(m=>m.classList.remove("active"));
-
-  const mainBtn = document.querySelector(".menu-item");
-  if(mainBtn) mainBtn.classList.add("active");
-
-  // 4. (있으면) 메인 내용 복구
-  const box = document.getElementById("mainContent");
-  if(originalMainContent){
-    box.innerHTML = originalMainContent;
-  }
-
-  // 5. 메인 다시 렌더
-  if(rawData.length){
-    updateSummary(rawData);
-    buildStats(rawData);
-    initClassFilter();
-  }
 }

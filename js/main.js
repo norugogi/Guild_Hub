@@ -1,5 +1,6 @@
 let players = [];
 let rawData = [];
+let currentFilter = "ALL";
 
 const classMap = {
   AbyssRevenant:"심연추방자",
@@ -10,7 +11,9 @@ const classMap = {
   IncenseArcher:"향사수"
 };
 
-/* 페이지 전환 */
+/* =====================
+   페이지 전환
+===================== */
 function showPage(id, el){
 
   document.querySelectorAll(".page, #mainPage")
@@ -27,18 +30,64 @@ function showPage(id, el){
   if(id==="guildStatPage") buildGuildStat(players);
 }
 
-/* 데이터 */
+/* =====================
+   데이터 로드
+===================== */
 fetch("data/catdog_all_in_one.json")
 .then(res=>res.json())
 .then(data=>{
   players = data;
   rawData = data;
 
-  render(players);
+  updateSummary(data);
   buildStats(data);
 });
 
-/* 리스트 */
+/* =====================
+   요약
+===================== */
+function updateSummary(data){
+  document.getElementById("total").innerText = data.length;
+
+  let dog = data.filter(p=>p.guild_name==="DOG").length;
+  let cat = data.filter(p=>p.guild_name==="CAT").length;
+
+  document.getElementById("dog").innerText = dog;
+  document.getElementById("cat").innerText = cat;
+}
+
+/* =====================
+   필터
+===================== */
+document.addEventListener("DOMContentLoaded",()=>{
+  document.querySelectorAll("input[name='guildFilter']")
+    .forEach(r=>{
+      r.addEventListener("change",()=>{
+        currentFilter = r.value;
+        applyFilter();
+      });
+    });
+});
+
+function applyFilter(){
+
+  let filtered = rawData;
+
+  if(currentFilter==="DOG"){
+    filtered = rawData.filter(p=>p.guild_name==="DOG");
+  }
+
+  if(currentFilter==="CAT"){
+    filtered = rawData.filter(p=>p.guild_name==="CAT");
+  }
+
+  updateSummary(filtered);
+  buildStats(filtered);
+}
+
+/* =====================
+   리스트
+===================== */
 function render(list){
 
   const el = document.getElementById("guildList");
@@ -59,7 +108,9 @@ function render(list){
   el.innerHTML = html;
 }
 
-/* 통계 */
+/* =====================
+   통계
+===================== */
 function buildStats(data){
 
   let levelMap={}, classMap2={}, gradeMap={};
@@ -81,7 +132,9 @@ function add(map,key,p){
   map[key].players.push(p);
 }
 
-/* 그래프 */
+/* =====================
+   그래프
+===================== */
 function renderChart(id,data){
 
   let entries = Object.entries(data)
@@ -119,10 +172,13 @@ function renderChart(id,data){
   });
 }
 
-/* 통계 페이지 */
+/* =====================
+   결사 통계
+===================== */
 function buildGuildStat(data){
 
   let map={};
+
   data.forEach(p=>{
     map[p.gc_level]=(map[p.gc_level]||0)+1;
   });
@@ -140,7 +196,9 @@ function buildGuildStat(data){
   document.getElementById("guildStatBox").innerHTML=html;
 }
 
-/* 팝업 */
+/* =====================
+   팝업
+===================== */
 function openModal(type,key){
 
   let filtered = rawData.filter(p=>{

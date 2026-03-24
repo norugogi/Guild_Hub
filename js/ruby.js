@@ -34,10 +34,15 @@ function showRuby(){
  * 🔥 필터 값 가져오기
  ***************************************/
 function getRubyFilters(){
+
+  const groupEl = document.getElementById("groupFilter");
+  const seasonEl = document.getElementById("seasonFilter");
+  const weekEl = document.getElementById("weekFilter");
+
   return {
-    group: document.getElementById("groupFilter").value,
-    season: document.getElementById("seasonFilter").value,
-    week: document.getElementById("weekFilter").value
+    group: groupEl ? groupEl.value : "all",
+    season: seasonEl ? seasonEl.value : "all",
+    week: weekEl ? weekEl.value : "all"
   };
 }
 

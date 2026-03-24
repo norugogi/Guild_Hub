@@ -96,7 +96,9 @@ function renderTable(list){
 
     html += `
     <tr>
-      <td>${worldMap[p.world] || p.world}</td>
+      <td onclick="openServerModal('${p.world}')">
+  ${worldMap[p.world] || p.world}
+</td>
       <td>${p.ranking}</td>
       <td>${p.guild || "-"}</td>
       <td>${p.name}</td>
@@ -118,3 +120,44 @@ document.addEventListener("keydown", e => {
     searchPlayer();
   }
 });
+
+/* = 추가 = */
+function openServerModal(worldKey){
+
+  const serverName = worldMap[worldKey] || worldKey;
+
+  const serverData = whoData.filter(p => p.world === worldKey);
+
+  renderServerModal(serverName, serverData);
+}
+
+function renderServerModal(serverName, list){
+
+  document.getElementById("modalTitle").innerText = serverName + " 랭킹";
+
+  const tbody = document.getElementById("modalBody");
+
+  let html = "";
+
+  list
+    .sort((a,b) => a.ranking - b.ranking)
+    .forEach(p => {
+
+      html += `
+      <tr>
+        <td>${p.ranking}</td>
+        <td>${p.name}</td>
+        <td>${p.level}</td>
+        <td>${classMap[p.class] || p.class}</td>
+      </tr>
+      `;
+    });
+
+  tbody.innerHTML = html;
+
+  document.getElementById("serverModal").style.display = "block";
+}
+
+function closeModal(){
+  document.getElementById("serverModal").style.display = "none";
+}

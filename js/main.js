@@ -349,9 +349,19 @@ function openModal(title, list){
 
   modalTitle.innerText = title;
 
+  // 🔥 레벨 높은순 정렬
+  list.sort((a,b)=>b.gc_level - a.gc_level);
+
   let html = "";
+
   list.forEach(p=>{
-    html += `<div>${p.gc_name}</div>`;
+    html += `
+      <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+        <span>${p.gc_name}</span>
+        <span>Lv.${p.gc_level}</span>
+        <span>${classMap[p.class] || p.class}</span>
+      </div>
+    `;
   });
 
   modalList.innerHTML = html;
@@ -359,22 +369,26 @@ function openModal(title, list){
   modal.style.display = "flex";
 }
 
-document.getElementById("modal")?.addEventListener("click", function(e){
+/* =====================
+   팝업 닫기
+===================== */
 
-  // 배경 눌렀을 때만 닫힘
+// 배경 클릭 닫기
+document.getElementById("modal")?.addEventListener("click", function(e){
   if(e.target === this){
     this.style.display = "none";
   }
-
 });
 
-function closeModal(){
-  const modal = document.getElementById("modal");
-  if(modal) modal.style.display = "none";
-}
-
+// ESC 닫기
 document.addEventListener("keydown", function(e){
   if(e.key === "Escape"){
     closeModal();
   }
 });
+
+// 버튼 닫기용
+function closeModal(){
+  const modal = document.getElementById("modal");
+  if(modal) modal.style.display = "none";
+}

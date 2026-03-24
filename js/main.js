@@ -59,15 +59,6 @@ function updateSummary(data){
 /* =====================
    필터
 ===================== */
-document.addEventListener("DOMContentLoaded",()=>{
-  document.querySelectorAll("input[name='guildFilter']")
-    .forEach(r=>{
-      r.addEventListener("change",()=>{
-        currentFilter = r.value;
-        applyFilter();
-      });
-    });
-});
 
 function applyFilter(){
 
@@ -230,3 +221,29 @@ function closeModal(){
 window.onclick=e=>{
   if(e.target.id==="modal") closeModal();
 };
+function initFilter(){
+
+  const radios = document.querySelectorAll("input[name='guildFilter']");
+
+  radios.forEach(r=>{
+    r.addEventListener("change",function(){
+
+      currentFilter = this.value;
+
+      applyFilter();
+    });
+  });
+}
+
+// 🔥 데이터 로드 이후 실행
+fetch("data/catdog_all_in_one.json")
+.then(res=>res.json())
+.then(data=>{
+  players = data;
+  rawData = data;
+
+  updateSummary(data);
+  buildStats(data);
+
+  initFilter(); // 🔥 여기서 실행
+});

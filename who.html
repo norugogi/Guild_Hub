@@ -53,5 +53,27 @@
 
 <!-- 🔥 JS는 반드시 아래 -->
 <script src="js/who.js"></script>
+
+
+<!-- 🔥 서버 팝업 -->
+<div id="serverModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">×</span>
+    <h2 id="modalTitle"></h2>
+
+    <table class="who-table">
+      <thead>
+        <tr>
+          <th>순위</th>
+          <th>닉네임</th>
+          <th>레벨</th>
+          <th>직업</th>
+        </tr>
+      </thead>
+      <tbody id="modalBody"></tbody>
+    </table>
+  </div>
+</div>
+  
 </body>
 </html>

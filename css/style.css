@@ -103,6 +103,10 @@ body {
   gap: 10px;
 }
 
+.stat-wrap {
+  margin-top: 20px;
+}
+
 .box {
   flex: 1;
   background: #2a2b30;

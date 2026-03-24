@@ -313,14 +313,14 @@ function goMain(){
 
   if(originalMainContent){
     box.innerHTML = originalMainContent;
-
-    // 🔥 핵심: 다시 초기화
-    setTimeout(()=>{
-      updateSummary(rawData);
-      buildStats(rawData);
-      initClassFilter();
-    }, 50);
   }
 
   showPage('mainPage');
+
+  // 🔥 핵심 추가 (이거 하나)
+  setTimeout(()=>{
+    updateSummary(rawData);
+    buildStats(rawData);
+    initClassFilter();
+  }, 0);
 }

@@ -369,16 +369,19 @@ function openModal(title, list){
   sorted.forEach(p=>{
     html += `
       <div style="
-        display:flex;
-        justify-content:space-between;
-        width:300px;
-        margin:4px auto;
-        padding:4px 8px;
-        border-bottom:1px solid rgba(255,255,255,0.1);
+        display:grid;
+        grid-template-columns: 1fr 80px 120px;
+        gap:12px;
+        align-items:center;
+        width:100%;
+        max-width:420px;
+        margin:0 auto;
+        padding:6px 12px;
+        border-bottom:1px solid rgba(255,255,255,0.08);
       ">
-        <span>${p.gc_name}</span>
-        <span style="color:#ffd700;">Lv.${p.gc_level}</span>
-        <span style="opacity:0.7;">${classMap[p.class] || p.class}</span>
+        <span style="text-align:left;">${p.gc_name}</span>
+        <span style="text-align:right; color:#ffd700;">Lv.${p.gc_level}</span>
+        <span style="text-align:right; opacity:0.7;">${classMap[p.class] || p.class}</span>
       </div>
     `;
   });

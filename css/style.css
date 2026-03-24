@@ -182,3 +182,47 @@ th {
   border:none;
   border-radius:6px;
 }
+
+/* 전체 묶음 */
+.stat-wrap{
+  display:flex;
+  gap:20px;
+}
+
+/* 카드 */
+.stat-card{
+  flex:1;
+  background:#2a2b30;
+  border-radius:10px;
+  padding:15px;
+}
+
+/* 제목 */
+.stat-title{
+  text-align:center;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+/* 테이블 영역 */
+.stat-table{
+  max-height:400px;
+  overflow-y:auto; /* 🔥 스크롤 */
+}
+
+/* 테이블 */
+.stat-table table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.stat-table th,
+.stat-table td{
+  padding:8px;
+  border-bottom:1px solid #333;
+  text-align:center;
+}
+
+.stat-table th{
+  background:#333;
+}

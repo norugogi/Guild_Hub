@@ -336,3 +336,61 @@ function renderRuby(){
 
   table.innerHTML = html;
 }
+
+/*오픈모달*/
+function openModal(title, list){
+
+  const modal = document.getElementById("modal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalList = document.getElementById("modalList");
+
+  if(!modal || !modalTitle || !modalList) return;
+
+  modalTitle.innerText = title;
+
+  if(!list || list.length === 0){
+    modalList.innerHTML = "<div style='text-align:center; padding:20px;'>데이터 없음</div>";
+    modal.style.display = "flex";
+    return;
+  }
+
+  let html = "";
+
+  list.forEach(p=>{
+    html += `
+      <div style="
+        display:grid;
+        grid-template-columns: 120px 80px 120px;
+        gap:10px;
+        justify-content:center;
+        padding:4px;
+      ">
+        <span>${p.gc_name}</span>
+        <span>Lv.${p.gc_level}</span>
+        <span>${classMap[p.class] || p.class}</span>
+      </div>
+    `;
+  });
+
+  modalList.innerHTML = html;
+  modal.style.display = "flex";
+}
+
+function closeModal(){
+  const modal = document.getElementById("modal");
+  if(modal) modal.style.display = "none";
+}
+
+// ESC로 닫기
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape"){
+    closeModal();
+  }
+});
+
+// 배경 클릭 닫기
+document.getElementById("modal")?.addEventListener("click", function(e){
+  if(e.target === this){
+    this.style.display = "none";
+  }
+});

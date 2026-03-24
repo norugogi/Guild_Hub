@@ -371,9 +371,18 @@ function openModal(title, list, x, y){
 
   modal.style.display = "block";
 
-  // 🔥 위치 지정 + 보정 포함
   const boxWidth = 420;
   const boxHeight = 300;
+
+  // 🔥 안전 처리
+  if(typeof x !== "number" || typeof y !== "number"){
+    // 중앙에 띄우기
+    modalBox.style.position = "fixed";
+    modalBox.style.left = "50%";
+    modalBox.style.top = "50%";
+    modalBox.style.transform = "translate(-50%, -50%)";
+    return;
+  }
 
   const posX = Math.min(x, window.innerWidth - boxWidth);
   const posY = Math.min(y, window.innerHeight - boxHeight);

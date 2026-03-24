@@ -1,99 +1,94 @@
-/* 상단 메뉴 */
-.top-menu {
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  margin-bottom:20px;
+body {
+  margin:0;
+  font-family:Arial;
+  background:#1e1f22;
+  color:#fff;
 }
 
-.top-btn {
-  background:#2a2b30;
-  padding:10px 16px;
-  border-radius:10px;
-  min-width:110px;
-  text-align:center;
-  cursor:pointer;
-  transition:0.2s;
-}
-
-.top-btn:hover {
-  background:#3a3b40;
-}
-
-/* 요약 카드 */
-.summary {
-  display:flex;
-  gap:20px;
-  justify-content:center;
-  margin-bottom:30px;
-}
-
-.card {
-  background:#2a2b30;
-  padding:14px 30px;
-  border-radius:12px;
-  display:flex;
-  gap:20px;
-  align-items:center;
-  font-size:14px;
-}
-
-.card b {
-  font-size:18px;
-}
-
-.green {
-  color:#4cd964;
-}
-
-/* 통계 영역 */
-.stats {
-  display:flex;
-  gap:20px;
-  margin-bottom:30px;
-}
-
-.stat-box {
-  flex:1;
-  background:#2a2b30;
-  border-radius:12px;
+/* 사이드 */
+.sidebar {
+  width:220px;
+  height:100vh;
+  background:#111;
+  position:fixed;
   padding:20px;
 }
 
-.stat-title {
-  margin-bottom:15px;
-  font-weight:bold;
+.menu-item {
+  padding:10px;
+  margin-top:6px;
+  cursor:pointer;
 }
 
-/* 가로바 */
-.bar-row {
+.menu-item.active {
+  background:#d4af37;
+  color:#000;
+}
+
+/* 메인 */
+.main {
+  margin-left:240px;
+  padding:30px;
+  width:1200px; /* 고정 */
+}
+
+/* 상단 버튼 */
+.top-menu {
   display:flex;
-  align-items:center;
   gap:10px;
-  margin-bottom:10px;
+  flex-wrap:wrap;
 }
 
-.bar {
-  flex:1;
-  height:12px;
-  background:#1e1f22;
-  border-radius:10px;
-  overflow:hidden;
-}
-
-.bar div {
-  height:100%;
-  background:#4aa3ff;
-}
-
-/* 하단 */
-.bottom-box {
+.top-btn {
+  width:130px;
+  height:40px;
   background:#2a2b30;
-  height:220px;
-  border-radius:12px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:20px;
-  color:#aaa;
+}
+
+/* 구분선 */
+.divider {
+  height:1px;
+  background:#333;
+  margin:20px 0;
+}
+
+/* 카드 */
+.summary {
+  display:flex;
+  gap:20px;
+}
+
+.card {
+  width:150px;
+  height:80px;
+  background:#252733;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+/* 통계 */
+.stats {
+  display:flex;
+  gap:20px;
+  margin-top:30px;
+}
+
+.box {
+  width:350px;
+  height:200px;
+  background:#252733;
+  padding:15px;
+}
+
+/* 하단 */
+.bottom {
+  margin-top:30px;
+  width:100%;
+  height:250px;
+  background:#252733;
 }

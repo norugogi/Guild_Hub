@@ -27,14 +27,17 @@ function showPage(id, el){
 
   if(el) el.classList.add("active");
 
-  // 🔥 리스트 페이지
   if(id==="guildListPage"){
     applyListFilter();
   }
 
-  // 🔥 통계 페이지
   if(id==="guildStatPage"){
     buildGuildStat(players);
+  }
+
+  // 🔥 루비 페이지 진입 시
+  if(id==="rubyPage"){
+    renderRuby();
   }
 }
 
@@ -49,8 +52,47 @@ fetch("data/catdog_all_in_one.json")
 
   updateSummary(data);
   buildStats(data);
-  initClassFilter(); // 🔥 추가
+  initClassFilter();
+
+  loadRuby(); // 🔥 추가
 });
+
+/* =====================
+   루비 로드 (추가)
+===================== */
+function loadRuby(){
+
+  fetch("data/ruby_ranking.json")
+  .then(res=>res.json())
+  .then(data=>{
+    rubyData = data;
+  });
+}
+
+/* =====================
+   루비 렌더 (추가)
+===================== */
+function renderRuby(){
+
+  const table = document.getElementById("rubyTable");
+  if(!table || !rubyData.length) return;
+
+  let html = "";
+
+  rubyData
+    .sort((a,b)=> b.score - a.score)
+    .forEach((p,i)=>{
+      html += `
+      <tr>
+        <td>${i+1}</td>
+        <td>${p.name}</td>
+        <td>${p.guild}</td>
+        <td>${p.score.toLocaleString()}</td>
+      </tr>`;
+    });
+
+  table.innerHTML = html;
+}
 
 /* =====================
    요약
@@ -67,20 +109,18 @@ function updateSummary(data){
 }
 
 /* =====================
-   메인 필터 (라디오)
+   메인 필터
 ===================== */
 document.addEventListener("DOMContentLoaded",()=>{
 
   document.querySelectorAll("input[name='guildFilter']")
     .forEach(r=>{
       r.addEventListener("change",function(){
-
         currentFilter = this.value;
         applyFilter();
       });
     });
 
-  // 🔥 리스트 필터 이벤트
   document.getElementById("guildFilterSelect")?.addEventListener("change",applyListFilter);
   document.getElementById("classFilterSelect")?.addEventListener("change",applyListFilter);
 });
@@ -105,7 +145,7 @@ function applyFilter(){
 }
 
 /* =====================
-   리스트 필터 (핵심)
+   리스트 필터
 ===================== */
 function applyListFilter(){
 
@@ -114,7 +154,6 @@ function applyListFilter(){
 
   let filtered = rawData;
 
-  // 결사 필터
   if(guild === "DOG"){
     filtered = filtered.filter(p=>p.guild_name==="DOG");
   }
@@ -123,7 +162,6 @@ function applyListFilter(){
     filtered = filtered.filter(p=>p.guild_name?.includes("CAT"));
   }
 
-  // 직업 필터
   if(cls !== "ALL"){
     filtered = filtered.filter(p=>
       (classMap[p.class] || p.class) === cls
@@ -231,18 +269,13 @@ function renderChart(id,data){
     },
     options:{
       indexAxis:'y',
-      plugins:{legend:{display:false}},
-      onClick:(e,el)=>{
-        if(el.length){
-          openModal(id, labels[el[0].index]);
-        }
-      }
+      plugins:{legend:{display:false}}
     }
   });
 }
 
 /* =====================
-   결사 통계
+   결사 통계 (하나만 유지)
 ===================== */
 function buildGuildStat(data){
 
@@ -269,61 +302,4 @@ function buildGuildStat(data){
       ${makeStatCard("토벌 통계", gradeMap)}
     </div>
   `;
-}
-
-/* =====================
-   팝업
-===================== */
-function openModal(type,key){
-
-  let filtered = rawData.filter(p=>{
-    if(type==="classStats"){
-      return (classMap[p.class]||p.class)===key;
-    }
-    if(type==="levelStats") return p.gc_level==key;
-    if(type==="gradeStats") return p.grade==key;
-  });
-
-  filtered.sort((a,b)=>b.gc_level-a.gc_level);
-
-  let html="";
-  filtered.forEach(p=>{
-    html+=`Lv.${p.gc_level} ${p.gc_name}<br>`;
-  });
-
-  document.getElementById("modalTitle").innerText =
-    `${key} (${filtered.length}명)`;
-
-  document.getElementById("modalList").innerHTML = html;
-  document.getElementById("modal").style.display="flex";
-}
-
-function closeModal(){
-  document.getElementById("modal").style.display="none";
-}
-
-window.onclick=e=>{
-  if(e.target.id==="modal") closeModal();
-};
-
-/* =========="결사통계"============== */
-function buildGuildStat(data){
-
-  let map={};
-
-  data.forEach(p=>{
-    map[p.gc_level]=(map[p.gc_level]||0)+1;
-  });
-
-  let html="<table><tr><th>레벨</th><th>인원</th></tr>";
-
-  Object.entries(map)
-    .sort((a,b)=>b[1]-a[1])
-    .forEach(e=>{
-      html+=`<tr><td>${e[0]}</td><td>${e[1]}</td></tr>`;
-    });
-
-  html+="</table>";
-
-  document.getElementById("guildStatBox").innerHTML=html;
 }

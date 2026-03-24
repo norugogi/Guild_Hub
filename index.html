@@ -1,205 +1,75 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-<title>Guild Hub</title>
+<div id="mainPage">
 
-<style>
-body { margin:0; font-family:Pretendard; background:#1e1f22; color:#fff; }
+  <!-- 상단 가로 메뉴 -->
+  <div class="top-menu">
+    <div class="top-btn">결사소개</div>
+    <div class="top-btn">입찰률</div>
+    <div class="top-btn">참여도</div>
+    <div class="top-btn">스펙정보</div>
+    <div class="top-btn">참여데이터</div>
+    <div class="top-btn">공급시트</div>
+    <div class="top-btn">전체서버 통계</div>
+    <div class="top-btn">관리자메뉴</div>
+  </div>
 
-.sidebar { width:220px; height:100vh; background:#111214; padding:20px; position:fixed; }
-.menu-title { font-size:13px; color:#888; margin-top:20px; margin-bottom:8px; }
-.menu-item { padding:10px; border-radius:6px; cursor:pointer; margin-bottom:6px; }
-.menu-item:hover { background:#2a2b30; }
-.menu-item.active { background:#d4af37; color:#000; font-weight:bold; }
+  <!-- 요약 카드 -->
+  <div class="summary">
+    <div class="card"><span>DOG</span><b>50</b></div>
+    <div class="card"><span>CAT</span><b>45</b></div>
+    <div class="card"><span>총합</span><b>95</b></div>
+    <div class="card"><span>시즌상태</span><b class="green">농사</b></div>
+  </div>
 
-.main { margin-left:240px; padding:30px; }
-.title { text-align:center; font-size:24px; margin-bottom:20px; }
+  <!-- 통계 영역 -->
+  <div class="stats">
 
-table { width:100%; border-collapse:collapse; }
-th, td { padding:10px; border-bottom:1px solid #333; text-align:center; }
-thead { background:#2a2b30; }
+    <!-- 직업 -->
+    <div class="stat-box">
+      <div class="stat-title">직업 통계</div>
 
-input, select, button { background:#2a2b30; color:#fff; border:none; padding:6px; margin:4px; }
-button { cursor:pointer; }
-.center { text-align:center; }
-</style>
-</head>
+      <div class="bar-row">
+        <span>심연추방자</span>
+        <div class="bar"><div style="width:30%"></div></div>
+        <b>3명</b>
+      </div>
 
-<body>
+      <div class="bar-row">
+        <span>주문각인사</span>
+        <div class="bar"><div style="width:80%"></div></div>
+        <b>23명</b>
+      </div>
 
-<!-- 사이드바 -->
-<div class="sidebar">
+    </div>
 
-<div class="menu-title">메인</div>
-<div class="menu-item active" onclick="showPage('mainPage',this)">메인화면</div>
+    <!-- 토벌 -->
+    <div class="stat-box">
+      <div class="stat-title">토벌 통계</div>
 
-<div class="menu-title">공지</div>
-<div class="menu-item" onclick="showPage('noticePage',this)">시즌 주요 공지</div>
+      <div class="bar-row">
+        <span>25단계</span>
+        <div class="bar"><div style="width:40%"></div></div>
+        <b>12명</b>
+      </div>
 
-<div class="menu-title">결사</div>
-<div class="menu-item" onclick="showPage('guildListPage',this)">결사원 리스트</div>
-<div class="menu-item" onclick="showPage('guildStatPage',this)">결사 통계</div>
+    </div>
 
-<div class="menu-title">캐릭터</div>
-<div class="menu-item" onclick="showPage('whoPage',this)">너 누구야</div>
+    <!-- 레벨 -->
+    <div class="stat-box">
+      <div class="stat-title">레벨 통계</div>
 
-<div class="menu-title">통계</div>
-<div class="menu-item" onclick="showPage('levelStatPage',this)">레벨 통계</div>
-<div class="menu-item" onclick="showPage('gradeStatPage',this)">토벌 통계</div>
-<div class="menu-item" onclick="showPage('classStatPage',this)">직업 통계</div>
+      <div class="bar-row">
+        <span>90+</span>
+        <div class="bar"><div style="width:70%"></div></div>
+        <b>30명</b>
+      </div>
 
-<div class="menu-title">공헌도</div>
-<div class="menu-item" onclick="showPage('rubyPage',this)">루비 공헌도</div>
-<div class="menu-item" onclick="showPage('ratePage',this)">참여율</div>
+    </div>
 
-<div class="menu-title">관리자</div>
-<div class="menu-item" onclick="showPage('adminPage',this)">관리자</div>
+  </div>
 
-</div>
-
-<!-- 메인 -->
-<div class="main">
-
-<div id="mainPage"><div class="title">메인화면</div></div>
-
-<!-- 공지 -->
-<div id="noticePage" style="display:none;">
-<div class="title">공지</div>
-<div id="noticeBox"></div>
-</div>
-
-<!-- 결사 리스트 -->
-<div id="guildListPage" style="display:none;">
-<div class="title">결사원 리스트</div>
-<table>
-<thead><tr><th>결사</th><th>닉네임</th><th>레벨</th><th>직업</th><th>토벌</th></tr></thead>
-<tbody id="guildList"></tbody>
-</table>
-</div>
-
-<!-- 결사 통계 -->
-<div id="guildStatPage" style="display:none;">
-<div class="title">결사 통계</div>
-<div id="guildStatBox"></div>
-</div>
-
-<!-- 너누구야 -->
-<div id="whoPage" style="display:none;">
-<div class="title">너 누구야</div>
-<div class="center">
-<input id="searchName" placeholder="닉네임">
-<button onclick="searchPlayer()">검색</button>
-</div>
-<div id="whoResult" class="center"></div>
-</div>
-
-<!-- 통계 -->
-<div id="levelStatPage" style="display:none;"><div class="title">레벨 통계</div><div id="levelStat"></div></div>
-<div id="gradeStatPage" style="display:none;"><div class="title">토벌 통계</div><div id="gradeStat"></div></div>
-<div id="classStatPage" style="display:none;"><div class="title">직업 통계</div><div id="classStat"></div></div>
-
-<!-- 루비 -->
-<div id="rubyPage" style="display:none;">
-<div class="title">루비 공헌</div>
-<table>
-<thead><tr><th>순위</th><th>닉네임</th><th>결사</th><th>점수</th></tr></thead>
-<tbody id="rubyTable"></tbody>
-</table>
-</div>
-
-<!-- 참여율 -->
-<div id="ratePage" style="display:none;">
-<div class="title">참여율</div>
-<div id="rateBox">추후 연결</div>
-</div>
-
-<!-- 관리자 -->
-<div id="adminPage" style="display:none;">
-<div class="title">관리자</div>
-</div>
+  <!-- 하단 데이터 -->
+  <div class="bottom-box">
+    각종 데이터 영역 (추후 연결)
+  </div>
 
 </div>
-
-<script>
-
-let players = [];
-let rubyData = [];
-
-/* 페이지 전환 */
-function showPage(id, el){
-  document.querySelectorAll(".main > div").forEach(p=>p.style.display="none");
-  document.getElementById(id).style.display="block";
-
-  document.querySelectorAll(".menu-item").forEach(e=>e.classList.remove("active"));
-  el.classList.add("active");
-}
-
-/* 공지 */
-fetch("data/notice.json")
-.then(r=>r.json())
-.then(data=>{
-  document.getElementById("noticeBox").innerText = data.notice || JSON.stringify(data);
-});
-
-/* 결사 데이터 */
-fetch("data/catdog_all_in_one.json")
-.then(r=>r.json())
-.then(data=>{
-  players = data;
-  renderGuild(data);
-});
-
-/* 루비 */
-fetch("data/ruby_ranking.json")
-.then(r=>r.json())
-.then(data=>{
-  rubyData = data;
-  renderRuby(data);
-});
-
-/* 결사 리스트 */
-function renderGuild(data){
-  const tbody = document.getElementById("guildList");
-  tbody.innerHTML = "";
-  data.slice(0,100).forEach(p=>{
-    tbody.innerHTML += `
-    <tr>
-      <td>${p.guild_name}</td>
-      <td>${p.gc_name}</td>
-      <td>${p.gc_level}</td>
-      <td>${p.class}</td>
-      <td>${p.string_map?.grade || "-"}</td>
-    </tr>`;
-  });
-}
-
-/* 루비 */
-function renderRuby(data){
-  const tbody = document.getElementById("rubyTable");
-  tbody.innerHTML = "";
-  data.forEach((r,i)=>{
-    tbody.innerHTML += `
-    <tr>
-      <td>${i+1}</td>
-      <td>${r.name}</td>
-      <td>${r.guild}</td>
-      <td>${r.score}</td>
-    </tr>`;
-  });
-}
-
-/* 너누구야 */
-function searchPlayer(){
-  const name = document.getElementById("searchName").value.trim();
-  const p = players.find(x=>x.gc_name===name);
-
-  document.getElementById("whoResult").innerText =
-    p ? `${p.gc_name} | Lv.${p.gc_level} | ${p.class} | ${p.guild_name}` : "없음";
-}
-
-</script>
-
-</body>
-</html>

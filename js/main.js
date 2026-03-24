@@ -350,3 +350,30 @@ function renderRuby(){
 
   table.innerHTML = html;
 }
+
+/*===메인그래프팝업====*/
+function openModal(title, list){
+
+  const modal = document.getElementById("modal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalList = document.getElementById("modalList");
+
+  if(!modal || !modalTitle || !modalList) return;
+
+  modalTitle.innerText = title;
+
+  let html = "";
+
+  list.forEach(p=>{
+    html += `<div>${p.gc_name}</div>`;
+  });
+
+  modalList.innerHTML = html;
+
+  modal.style.display = "block";
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display = "none";
+}
+

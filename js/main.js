@@ -155,8 +155,8 @@ function render(list){
       align-items:center;
     ">
       <span>${p.gc_name}</span>
-      <span style="text-align:center;">Lv.${p.gc_level}</span>
-      <span style="text-align:right;">${classMap[p.class] || p.class}</span>
+      <span>Lv.${p.gc_level}</span>
+      <span>${classMap[p.class] || p.class}</span>
     </div>
   `;
 });

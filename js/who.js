@@ -18,9 +18,8 @@ window.onload = function(){
   .then(res => res.json())
   .then(data => {
     whoData = data;
-    renderTable(whoData); // 초기 전체 출력
+    renderTable(whoData);
   });
-};
 
 /***************************************
  * 검색

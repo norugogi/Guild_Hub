@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Guild Hub</title>
-
-<link rel="stylesheet" href="css/main.css">
-
+<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<!-- 사이드바 -->
+<!-- 좌측 메뉴 -->
 <div class="sidebar">
 
   <div class="menu-title">메인</div>
@@ -20,7 +18,23 @@
   <div class="menu-item" onclick="showPage('noticePage',this)">시즌 주요 공지</div>
 
   <div class="menu-title">결사</div>
-  <div class="menu-item" onclick="showPage('guildPage',this)">결사원 리스트</div>
+  <div class="menu-item" onclick="showPage('guildListPage',this)">결사원 리스트</div>
+  <div class="menu-item" onclick="showPage('guildStatPage',this)">결사 통계</div>
+
+  <div class="menu-title">캐릭터</div>
+  <div class="menu-item" onclick="showPage('whoPage',this)">너 누구야</div>
+
+  <div class="menu-title">통계</div>
+  <div class="menu-item" onclick="showPage('levelStatPage',this)">레벨 통계</div>
+  <div class="menu-item" onclick="showPage('gradeStatPage',this)">토벌 통계</div>
+  <div class="menu-item" onclick="showPage('classStatPage',this)">직업 통계</div>
+
+  <div class="menu-title">공헌도</div>
+  <div class="menu-item" onclick="showPage('rubyPage',this)">루비 공헌도</div>
+  <div class="menu-item" onclick="showPage('ratePage',this)">참여율</div>
+
+  <div class="menu-title">관리자</div>
+  <div class="menu-item" onclick="showPage('adminPage',this)">관리자</div>
 
 </div>
 
@@ -28,88 +42,54 @@
 <div class="main">
 
   <!-- 메인 -->
- <div id="mainPage">
+  <div id="mainPage">
 
-  <!-- 상단 메뉴 -->
-  <div class="top-menu clean">
-    <div class="top-btn active">대시보드</div>
-    <div class="top-btn">결사원 관리</div>
-    <div class="top-btn">아이템 분배</div>
-    <div class="top-btn">패키지 지원</div>
-    <div class="top-btn">공급 관리</div>
-    <div class="top-btn">운영 규정</div>
-    <div class="top-btn">내정보</div>
-  </div>
-
-  <!-- 타이틀 -->
-  <div class="page-title">결사 대시보드</div>
-
-  <!-- 카드 영역 -->
-  <div class="card-wrap">
-
-    <div class="info-card">
-      <span>전체 인원</span>
-      <b class="blue">74명</b>
+    <div class="top-menu">
+      <div class="top-btn">결사소개</div>
+      <div class="top-btn">입찰률</div>
+      <div class="top-btn">참여도</div>
+      <div class="top-btn">스펙정보</div>
+      <div class="top-btn">참여데이터</div>
+      <div class="top-btn">공급시트</div>
+      <div class="top-btn">전체서버 통계</div>
+      <div class="top-btn">관리자메뉴</div>
     </div>
 
-    <div class="info-card">
-      <span>평균 전투력</span>
-      <b class="orange">39,944</b>
+    <div class="divider"></div>
+
+    <div class="summary">
+      <div class="card"><span>DOG</span><b id="dog">-</b></div>
+      <div class="card"><span>CAT</span><b id="cat">-</b></div>
+      <div class="card"><span>총합</span><b id="total">-</b></div>
+      <div class="card"><span>시즌상태</span><b>농사</b></div>
     </div>
 
-    <div class="info-card">
-      <span>참여율</span>
-      <b class="green">45.7%</b>
+    <div class="stats">
+      <div class="box"><div class="title">직업 통계</div><div id="classStats"></div></div>
+      <div class="box"><div class="title">토벌 통계</div><div id="gradeStats"></div></div>
+      <div class="box"><div class="title">레벨 통계</div><div id="levelStats"></div></div>
     </div>
 
-    <div class="info-card">
-      <span>기여 점수</span>
-      <b class="purple">15,457</b>
-    </div>
-
-    <div class="info-card">
-      <span>분배 대기</span>
-      <b>0건</b>
-    </div>
+    <div class="bottom">각종 데이터 영역</div>
 
   </div>
 
-  <!-- 하단 2분할 -->
-  <div class="dashboard">
+  <!-- 공지 -->
+  <div id="noticePage" class="page" style="display:none;">
+    <h2>공지</h2>
+    <div id="noticeBox"></div>
+  </div>
 
-    <!-- 왼쪽 통계 -->
-    <div class="panel">
-      <div class="panel-title">직업 분포</div>
-
-      <div class="bar-row">
-        <span>심연추방자</span>
-        <div class="bar"><div style="width:20%"></div></div>
-        <b>3명</b>
-      </div>
-
-      <div class="bar-row">
-        <span>주문각인사</span>
-        <div class="bar"><div style="width:80%"></div></div>
-        <b>23명</b>
-      </div>
-    </div>
-
-    <!-- 오른쪽 리스트 -->
-    <div class="panel">
-      <div class="panel-title">주요 아이템</div>
-      <ul class="item-list">
-        <li>Hermes</li>
-        <li>불타는둥지</li>
-        <li>새로봄</li>
-        <li>설탕</li>
-      </ul>
-    </div>
-
+  <!-- 결사 -->
+  <div id="guildListPage" class="page" style="display:none;">
+    <h2>결사원 리스트</h2>
+    <table>
+      <tbody id="guildList"></tbody>
+    </table>
   </div>
 
 </div>
 
 <script src="js/main.js"></script>
-
 </body>
 </html>

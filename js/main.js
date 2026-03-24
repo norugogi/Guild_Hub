@@ -409,3 +409,5 @@ function closeModal(){
   const modal = document.getElementById("modal");
   if(modal) modal.style.display = "none";
 }
+
+/*== 정상동작버전 ==*/

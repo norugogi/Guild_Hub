@@ -71,8 +71,8 @@ function searchPlayer(){
   filtered.sort((a,b) => a.ranking - b.ranking);
 
   // 🔥 너무 많으면 제한
-  if(filtered.length > 1000){
-    filtered = filtered.slice(0, 1000);
+  if(filtered.length > 100){
+    filtered = filtered.slice(0, 100);
   }
 
   renderTable(filtered);

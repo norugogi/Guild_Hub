@@ -20,23 +20,30 @@ function showPage(id, el){
   document.querySelectorAll(".page")
     .forEach(p=>p.style.display="none");
 
-  document.getElementById(id).style.display="block";
+  const target = document.getElementById(id);
+  if(target) target.style.display="block";
 
   document.querySelectorAll(".menu-item")
     .forEach(m=>m.classList.remove("active"));
 
   if(el) el.classList.add("active");
 
-  if(id==="guildListPage" && players.length){
+  // 🔥 핵심: 페이지 진입 후 다시 실행
+  if(id==="guildListPage"){
     applyListFilter();
   }
 
-  if(id==="guildStatPage" && players.length){
+  if(id==="guildStatPage"){
     buildGuildStat(players);
   }
 
-  if(id==="rubyPage" && rubyData.length){
+  if(id==="rubyPage"){
     renderRuby();
+  }
+
+  if(id==="mainPage"){
+    updateSummary(rawData);
+    buildStats(rawData);
   }
 }
 
@@ -360,7 +367,7 @@ function openModal(title, list){
     html += `
       <div style="
         display:grid;
-        grid-template-columns: 120px 80px 120px;
+        grid-template-columns: auto 80px 120px;
         gap:10px;
         justify-content:center;
         padding:4px;
@@ -380,17 +387,3 @@ function closeModal(){
   const modal = document.getElementById("modal");
   if(modal) modal.style.display = "none";
 }
-
-// ESC로 닫기
-document.addEventListener("keydown", function(e){
-  if(e.key === "Escape"){
-    closeModal();
-  }
-});
-
-// 배경 클릭 닫기
-document.getElementById("modal")?.addEventListener("click", function(e){
-  if(e.target === this){
-    this.style.display = "none";
-  }
-});

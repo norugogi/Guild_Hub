@@ -389,3 +389,23 @@ function openModal(title, list){
   modalList.innerHTML = html;
   modal.style.display = "flex";
 }
+
+// ESC 키로 닫기
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape"){
+    closeModal();
+  }
+});
+
+// 배경 클릭 시 닫기
+document.getElementById("modal")?.addEventListener("click", function(e){
+  if(e.target === this){
+    this.style.display = "none";
+  }
+});
+
+// 닫기 버튼
+function closeModal(){
+  const modal = document.getElementById("modal");
+  if(modal) modal.style.display = "none";
+}

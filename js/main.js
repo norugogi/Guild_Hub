@@ -45,7 +45,6 @@ function showPage(id, el){
 ===================== */
 document.addEventListener("DOMContentLoaded",()=>{
 
-  // 결사 데이터
   fetch("data/catdog_all_in_one.json")
   .then(res=>res.json())
   .then(data=>{
@@ -55,24 +54,14 @@ document.addEventListener("DOMContentLoaded",()=>{
     updateSummary(data);
     buildStats(data);
     initClassFilter();
-
-    if(document.getElementById("guildStatPage")?.style.display === "block"){
-      buildGuildStat(players);
-    }
   });
 
-  // 루비 데이터
   fetch("data/ruby_ranking.json")
   .then(res=>res.json())
   .then(data=>{
     rubyData = data;
-
-    if(document.getElementById("rubyPage")?.style.display === "block"){
-      renderRuby();
-    }
   });
 
-  // 필터 이벤트
   document.querySelectorAll("input[name='guildFilter']")
     .forEach(r=>{
       r.addEventListener("change",function(){
@@ -89,7 +78,6 @@ document.addEventListener("DOMContentLoaded",()=>{
    요약
 ===================== */
 function updateSummary(data){
-
   const total = document.getElementById("total");
   const dog = document.getElementById("dog");
   const cat = document.getElementById("cat");
@@ -232,7 +220,7 @@ function renderChart(id,data){
 
   box.innerHTML = `<canvas id="${id}Chart"></canvas>`;
 
-  const chart = new Chart(document.getElementById(id+"Chart"),{
+  new Chart(document.getElementById(id+"Chart"),{
     type:'bar',
     data:{
       labels,
@@ -246,37 +234,35 @@ function renderChart(id,data){
       indexAxis:'y',
       plugins:{legend:{display:false}},
 
-      // 🔥 여기 추가 (핵심)
       onClick: (e, elements) => {
 
         if(elements.length === 0) return;
 
-      const index = elements[0].index;
-      const label = labels[index];
+        const index = elements[0].index;
+        const label = labels[index];
 
-      let list = [];
+        let list = [];
 
-      if(id === "classStats"){
-        list = rawData.filter(p => (classMap[p.class] || p.class) == label);
-      }
+        if(id === "classStats"){
+          list = rawData.filter(p => (classMap[p.class] || p.class) == label);
+        }
 
-      if(id === "gradeStats"){
-        list = rawData.filter(p => String(p.grade) == String(label));
-      }
+        if(id === "gradeStats"){
+          list = rawData.filter(p => String(p.grade) == String(label));
+        }
 
-      if(id === "levelStats"){
-        list = rawData.filter(p => String(p.gc_level) == String(label));
+        if(id === "levelStats"){
+          list = rawData.filter(p => String(p.gc_level) == String(label));
+        }
+
+        openModal(label, list);
       }
     }
-
-  // 🔥 마우스 좌표
-  const y = e.native.clientY;
-
-  openModal(label, list, x, y);
+  });
 }
 
 /* =====================
-   결사 통계 (단 하나만 존재)ㄹ
+   결사 통계
 ===================== */
 function buildGuildStat(data){
 
@@ -302,7 +288,6 @@ function buildGuildStat(data){
   `;
 }
 
-/*여기*/
 function makeStatCard(title, map){
 
   let html = `
@@ -325,7 +310,6 @@ function makeStatCard(title, map){
 
   return html;
 }
-
 
 /* =====================
    루비
@@ -352,15 +336,16 @@ function renderRuby(){
   table.innerHTML = html;
 }
 
-/*===메인그래프팝업====*/
+/* =====================
+   팝업
+===================== */
 function openModal(title, list){
 
   const modal = document.getElementById("modal");
-  const modalBox = document.querySelector(".modal-box");
   const modalTitle = document.getElementById("modalTitle");
   const modalList = document.getElementById("modalList");
 
-  if(!modal || !modalBox || !modalTitle || !modalList) return;
+  if(!modal || !modalTitle || !modalList) return;
 
   modalTitle.innerText = title;
 
@@ -371,11 +356,5 @@ function openModal(title, list){
 
   modalList.innerHTML = html;
 
-  // 🔥 중앙 고정
   modal.style.display = "flex";
-
-  modalBox.style.position = "relative";
-  modalBox.style.left = "0";
-  modalBox.style.top = "0";
-  modalBox.style.transform = "none";
 }

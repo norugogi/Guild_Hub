@@ -387,3 +387,35 @@ function closeModal(){
   const modal = document.getElementById("modal");
   if(modal) modal.style.display = "none";
 }
+
+/*고잉*/
+function goMain(){
+
+  // 1. 모든 페이지 숨기기
+  document.querySelectorAll(".page")
+    .forEach(p=>p.style.display="none");
+
+  // 2. 메인 페이지 강제 표시
+  const main = document.getElementById("mainPage");
+  if(main) main.style.display = "block";
+
+  // 3. 메뉴 active 처리
+  document.querySelectorAll(".menu-item")
+    .forEach(m=>m.classList.remove("active"));
+
+  const mainBtn = document.querySelector(".menu-item");
+  if(mainBtn) mainBtn.classList.add("active");
+
+  // 4. (있으면) 메인 내용 복구
+  const box = document.getElementById("mainContent");
+  if(originalMainContent){
+    box.innerHTML = originalMainContent;
+  }
+
+  // 5. 메인 다시 렌더
+  if(rawData.length){
+    updateSummary(rawData);
+    buildStats(rawData);
+    initClassFilter();
+  }
+}

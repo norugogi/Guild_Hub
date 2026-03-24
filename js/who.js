@@ -14,7 +14,7 @@ const classMap = {
  ***************************************/
 window.onload = function(){
 
-  fetch("/Guild_Hub/data/Who_are_you.json")
+  fetch("data/Who_are_you.json")
   .then(res => res.json())
   .then(data => {
     whoData = data;

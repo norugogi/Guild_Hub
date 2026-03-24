@@ -50,7 +50,7 @@ function updateSummary(data){
   document.getElementById("total").innerText = data.length;
 
   let dog = data.filter(p=>p.guild_name==="DOG").length;
-  let cat = data.filter(p=>p.guild_name==="CATT").length;
+  let cat = data.filter(p=>p.guild_name==="CAT").length;
 
   document.getElementById("dog").innerText = dog;
   document.getElementById("cat").innerText = cat;
@@ -69,7 +69,7 @@ function applyFilter(){
   }
 
   if(currentFilter==="CAT"){
-    filtered = rawData.filter(p=>p.guild_name==="CATT");
+    filtered = rawData.filter(p=>p.guild_name==="CAT" || p.guild_name==="CATT");
   }
 
   // 🔥 핵심 (그래프 다시 그림)

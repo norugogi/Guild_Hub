@@ -28,70 +28,83 @@
 <div class="main">
 
   <!-- 메인 -->
-  <div id="mainPage">
+ <div id="mainPage">
 
-    <!-- 상단 가로 메뉴 -->
-    <div class="top-menu">
-      <div class="divider"></div>
-      <div class="top-btn">결사소개</div>
-      <div class="top-btn">입찰률</div>
-      <div class="top-btn">참여도</div>
-      <div class="top-btn">스펙정보</div>
-      <div class="top-btn">참여데이터</div>
-      <div class="top-btn">공급시트</div>
-      <div class="top-btn">전체서버 통계</div>
-      <div class="top-btn">관리자메뉴</div>
+  <!-- 상단 메뉴 -->
+  <div class="top-menu clean">
+    <div class="top-btn active">대시보드</div>
+    <div class="top-btn">결사원 관리</div>
+    <div class="top-btn">아이템 분배</div>
+    <div class="top-btn">패키지 지원</div>
+    <div class="top-btn">공급 관리</div>
+    <div class="top-btn">운영 규정</div>
+    <div class="top-btn">내정보</div>
+  </div>
+
+  <!-- 타이틀 -->
+  <div class="page-title">결사 대시보드</div>
+
+  <!-- 카드 영역 -->
+  <div class="card-wrap">
+
+    <div class="info-card">
+      <span>전체 인원</span>
+      <b class="blue">74명</b>
     </div>
 
-    <!-- 요약 카드 -->
-    <div class="summary">
-      <div class="card"><span>DOG</span><b id="dogCount">-</b></div>
-      <div class="card"><span>CAT</span><b id="catCount">-</b></div>
-      <div class="card"><span>총합</span><b id="totalCount">-</b></div>
-      <div class="card"><span>시즌상태</span><b class="green">농사</b></div>
+    <div class="info-card">
+      <span>평균 전투력</span>
+      <b class="orange">39,944</b>
     </div>
 
-    <!-- 통계 -->
-    <div class="stats">
-      <div class="stat-box">
-        <div class="stat-title">직업 통계</div>
-        <div id="classStats"></div>
-      </div>
-
-      <div class="stat-box">
-        <div class="stat-title">토벌 통계</div>
-        <div id="gradeStats"></div>
-      </div>
-
-      <div class="stat-box">
-        <div class="stat-title">레벨 통계</div>
-        <div id="levelStats"></div>
-      </div>
+    <div class="info-card">
+      <span>참여율</span>
+      <b class="green">45.7%</b>
     </div>
 
-    <div class="bottom-box">
-      각종 데이터 영역
+    <div class="info-card">
+      <span>기여 점수</span>
+      <b class="purple">15,457</b>
+    </div>
+
+    <div class="info-card">
+      <span>분배 대기</span>
+      <b>0건</b>
     </div>
 
   </div>
 
-  <!-- 공지 -->
-  <div id="noticePage" style="display:none;">
-    <div class="title">공지</div>
-    <div id="noticeBox"></div>
-  </div>
+  <!-- 하단 2분할 -->
+  <div class="dashboard">
 
-  <!-- 결사 -->
-  <div id="guildPage" style="display:none;">
-    <div class="title">결사원 리스트</div>
-    <table>
-      <thead>
-        <tr>
-          <th>결사</th><th>닉네임</th><th>레벨</th>
-        </tr>
-      </thead>
-      <tbody id="guildList"></tbody>
-    </table>
+    <!-- 왼쪽 통계 -->
+    <div class="panel">
+      <div class="panel-title">직업 분포</div>
+
+      <div class="bar-row">
+        <span>심연추방자</span>
+        <div class="bar"><div style="width:20%"></div></div>
+        <b>3명</b>
+      </div>
+
+      <div class="bar-row">
+        <span>주문각인사</span>
+        <div class="bar"><div style="width:80%"></div></div>
+        <b>23명</b>
+      </div>
+    </div>
+
+    <!-- 오른쪽 리스트 -->
+    <div class="panel">
+      <div class="panel-title">주요 아이템</div>
+      <ul class="item-list">
+        <li>Hermes</li>
+        <li>불타는둥지</li>
+        <li>새로봄</li>
+        <li>설탕</li>
+      </ul>
+    </div>
+
   </div>
 
 </div>

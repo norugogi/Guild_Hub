@@ -97,8 +97,8 @@ function renderTable(list){
     html += `
     <tr>
       <td onclick="openServerModal('${p.world}')">
-  ${worldMap[p.world] || p.world}
-</td>
+        ${worldMap[p.world] || p.world}
+      </td>
       <td>${p.ranking}</td>
       <td>${p.guild || "-"}</td>
       <td>${p.name}</td>

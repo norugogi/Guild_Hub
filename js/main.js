@@ -50,7 +50,7 @@ function updateSummary(data){
   document.getElementById("total").innerText = data.length;
 
   let dog = data.filter(p=>p.guild_name==="DOG").length;
-  let cat = data.filter(p=>p.guild_name==="CAT").length;
+  let cat = data.filter(p=>p.guild_name==="CATT").length;
 
   document.getElementById("dog").innerText = dog;
   document.getElementById("cat").innerText = cat;

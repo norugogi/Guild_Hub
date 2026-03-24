@@ -39,7 +39,7 @@ window.onload = function(){
 
     whoData = data;
 
-    renderTable(whoData);
+    renderTable(whoData.slice(0, 100));
   })
   .catch(err => {
     console.error("데이터 로드 실패:", err);
@@ -69,6 +69,11 @@ function searchPlayer(){
   });
 
   filtered.sort((a,b) => a.ranking - b.ranking);
+
+  // 🔥 너무 많으면 제한
+  if(filtered.length > 1000){
+    filtered = filtered.slice(0, 1000);
+  }
 
   renderTable(filtered);
 }

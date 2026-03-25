@@ -9,6 +9,7 @@ const classMap = {
   SolarSentinel:"태양감시자",
   RuneScribe:"주문각인사",
   MirageBlade:"환영검사",
+  WildWarrior:"야만투사",
   IncenseArcher:"향사수"
 };
 

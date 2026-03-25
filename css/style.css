@@ -526,39 +526,25 @@ tbody tr:nth-child(3) {
 
 /*=======루비공헌 CSS추가========*/
 .ruby-container {
-  max-height: 500px;   /* 높이 제한 */
-  overflow-y: auto;    /* 내부 스크롤 */
-  border-radius: 10px;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 /* 헤더 고정 */
-#rubyTable thead th {
+#rubyTableWrap thead th {
   position: sticky;
   top: 0;
   background: #1e1e1e;
   z-index: 2;
 }
 
-#rubyTable tr:nth-child(even){
-  background: rgba(255,255,255,0.03);
-}
-
-#rubyTable tr:hover{
-  background: rgba(255,215,0,0.15);
-}
-
-.ruby-container {
-  max-height: 500px;
-  overflow: auto;
-  padding-right: 6px; /* 스크롤 여백 */
-}
-
-#rubyTable {
+/* 가로 터짐 방지 */
+#rubyTableWrap {
   width: 100%;
   table-layout: fixed;
 }
 
-#rubyTable td {
+#rubyTableWrap td {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

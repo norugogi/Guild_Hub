@@ -47,13 +47,23 @@ body {
 
 /* 🔥 루비 페이지 전용 */
 .main.ruby-page {
-  max-width: none;                 /* 제한 해제 */
-  width: calc(100% - 260px);       /* 화면 꽉 채움 */
+  margin-left: 260px;
+
+  width: calc(100% - 260px);
+  max-width: none;
+
+  display: flex;
+  justify-content: center;   /* ⭐ 핵심 */
 }
 
 .main.ruby-page .ruby-container {
   width: 100%;
   max-width: none;
+}
+
+.main.ruby-page > * {
+  width: 100%;
+  max-width: 1200px;
 }
 
 /* 상단 메뉴 */

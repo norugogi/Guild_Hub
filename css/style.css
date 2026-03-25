@@ -41,8 +41,8 @@ body {
   margin-left: 260px;
   padding: 20px;
 
-  max-width: 1400px;   /* ⭐ 핵심 */
-  width: calc(100% - 260px); /* 사이드바 제외 */
+  max-width: 1400px;
+  width: calc(100% - 260px);
 }
 
 /* 🔥 루비 페이지 전용 */

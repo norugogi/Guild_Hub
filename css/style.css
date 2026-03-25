@@ -567,3 +567,8 @@ tbody tr:nth-child(3) {
 #rubyTableWrap td {
   white-space: nowrap;  /* 줄바꿈만 막고 */
 }
+
+.main.ruby-page .bar-wrap {
+  width: 600px;
+  margin: 20px auto;
+}

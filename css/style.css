@@ -552,3 +552,14 @@ tbody tr:nth-child(3) {
   overflow: auto;
   padding-right: 6px; /* 스크롤 여백 */
 }
+
+#rubyTable {
+  width: 100%;
+  table-layout: fixed;
+}
+
+#rubyTable td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

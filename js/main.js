@@ -220,7 +220,7 @@ function renderChart(id,data){
   if(!box) return;
 
   let entries = Object.entries(data)
-    .sort((a,b)=>b[1]-a[1])
+    .sort((a,b)=>Number(b[0]) - Number(a[0]))
     .slice(0,7);
 
   let labels = entries.map(e=>e[0]);

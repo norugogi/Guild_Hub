@@ -59,6 +59,7 @@ body {
 .main.ruby-page .ruby-container {
   width: 100%;
   max-width: none;
+  overflow-x: auto;
 }
 
 .main.ruby-page > * {

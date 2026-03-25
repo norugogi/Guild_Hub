@@ -537,7 +537,7 @@ tbody tr:nth-child(3) {
 
 /*=======루비공헌 CSS추가========*/
 
-/* 헤더 고정 */
+/* 헤더 고정 (유지) */
 #rubyTableWrap thead th {
   position: sticky;
   top: 0;
@@ -545,14 +545,13 @@ tbody tr:nth-child(3) {
   z-index: 2;
 }
 
-/* 가로 터짐 방지 */
+/* 테이블은 자유롭게 */
 #rubyTableWrap {
   width: 100%;
-  table-layout: fixed;
+  table-layout: auto;   /* ⭐ 변경 */
 }
 
+/* td 제한 제거 */
 #rubyTableWrap td {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: nowrap;  /* 줄바꿈만 막고 */
 }

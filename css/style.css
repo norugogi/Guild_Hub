@@ -43,7 +43,6 @@ body {
 
   max-width: 1400px;   /* ⭐ 핵심 */
   width: calc(100% - 260px); /* 사이드바 제외 */
-  margin-right: auto;  /* 오른쪽 여백 자동 */
 }
 
 /* 🔥 루비 페이지 전용 */

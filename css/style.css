@@ -546,3 +546,9 @@ tbody tr:nth-child(3) {
 #rubyTable tr:hover{
   background: rgba(255,215,0,0.15);
 }
+
+.ruby-container {
+  max-height: 500px;
+  overflow: auto;
+  padding-right: 6px; /* 스크롤 여백 */
+}

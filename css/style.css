@@ -524,3 +524,25 @@ tbody tr:nth-child(3) {
   border: none;
 }
 
+/*=======루비공헌 CSS추가========*/
+.ruby-container {
+  max-height: 500px;   /* 높이 제한 */
+  overflow-y: auto;    /* 내부 스크롤 */
+  border-radius: 10px;
+}
+
+/* 헤더 고정 */
+#rubyTable thead th {
+  position: sticky;
+  top: 0;
+  background: #1e1e1e;
+  z-index: 2;
+}
+
+#rubyTable tr:nth-child(even){
+  background: rgba(255,255,255,0.03);
+}
+
+#rubyTable tr:hover{
+  background: rgba(255,215,0,0.15);
+}

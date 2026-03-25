@@ -1,5 +1,6 @@
 /* 기본 */
 body {
+  overflow-x: hidden;
   margin: 0;
   font-family: Arial;
   background: #1e1e1e;

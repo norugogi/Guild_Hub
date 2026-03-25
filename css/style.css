@@ -526,7 +526,7 @@ tbody tr:nth-child(3) {
 
 /*=======루비공헌 CSS추가========*/
 .ruby-container {
-  max-height: 650px;
+  max-height: 600px;
   overflow-y: auto;
 }
 

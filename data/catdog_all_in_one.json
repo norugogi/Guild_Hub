@@ -3,7 +3,7 @@
     "gc_name": "유튜브맛나는꼬꼬",
     "gc_level": 92,
     "class": "AbyssRevenant",
-    "grade": "24",
+    "grade": "25",
     "guild_name": "DOG"
   },
   {
@@ -266,13 +266,6 @@
     "guild_name": "CATT"
   },
   {
-    "gc_name": "미스릴",
-    "gc_level": 88,
-    "class": "IncenseArcher",
-    "grade": "22",
-    "guild_name": "CATT"
-  },
-  {
     "gc_name": "야추",
     "gc_level": 88,
     "class": "IncenseArcher",
@@ -498,7 +491,7 @@
   },
   {
     "gc_name": "와치",
-    "gc_level": 85,
+    "gc_level": 86,
     "class": "RuneScribe",
     "grade": "22",
     "guild_name": "DOG"

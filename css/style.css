@@ -52,7 +52,6 @@ body {
   width: calc(100% - 260px);
   max-width: none;
 
-  display: flex;
   justify-content: center;   /* ⭐ 핵심 */
 }
 

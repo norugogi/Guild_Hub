@@ -336,11 +336,12 @@ tbody tr:nth-child(3) {
 /* 🔥 게이지 바 */
 .bar-wrap {
   width: 100%;
+  max-width: 800px;   /* ⭐ 추가 */
   height: 20px;
   background: #333;
   border-radius: 10px;
   overflow: hidden;
-  margin: 20px 0;
+  margin: 20px auto;  /* ⭐ 수정 */
 }
 
 .bar {

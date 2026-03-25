@@ -41,15 +41,20 @@ body {
   margin-left: 260px;
   padding: 20px;
 
-  max-width: 1200px;   /* ⭐ 핵심 */
+  max-width: 1400px;   /* ⭐ 핵심 */
   width: calc(100% - 260px); /* 사이드바 제외 */
   margin-right: auto;  /* 오른쪽 여백 자동 */
 }
 
-/* 🔥 추가 */
-.ruby-container {
-  max-width: 1200px;
-  margin-left: 20px;
+/* 🔥 루비 페이지 전용 */
+.main.ruby-page {
+  max-width: none;                 /* 제한 해제 */
+  width: calc(100% - 260px);       /* 화면 꽉 채움 */
+}
+
+.main.ruby-page .ruby-container {
+  width: 100%;
+  max-width: none;
 }
 
 /* 상단 메뉴 */

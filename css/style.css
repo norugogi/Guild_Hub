@@ -49,7 +49,7 @@ body {
 /* 🔥 추가 */
 .ruby-container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0;
 }
 
 /* 상단 메뉴 */
@@ -531,10 +531,6 @@ tbody tr:nth-child(3) {
 }
 
 /*=======루비공헌 CSS추가========*/
-.ruby-container {
-  max-height: 500px;
-  overflow-y: auto;
-}
 
 /* 헤더 고정 */
 #rubyTableWrap thead th {

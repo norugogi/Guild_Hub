@@ -1,5 +1,20 @@
 let whoData = [];
 
+/***************************************
+ * 🔥 추론 시스템 (핵심 추가)
+ ***************************************/
+let totalSearchCount = 0;      // 총 검색 횟수
+let serverCountMap = {};       // 서버별 등장 횟수
+
+function resetTracking(){
+  totalSearchCount = 0;
+  serverCountMap = {};
+  updateTrackingUI();
+}
+
+/***************************************
+ * 클래스 / 서버 맵
+ ***************************************/
 const classMap = {
   AbyssRevenant:"심연추방자",
   Enforcer:"집행관",
@@ -23,7 +38,6 @@ const worldMap = {
   "27-1":"메르비스1","27-2":"메르비스2","27-3":"메르비스3","27-4":"메르비스4","27-5":"메르비스5"
 };
 
-
 /***************************************
  * 초기 로딩
  ***************************************/
@@ -41,6 +55,7 @@ window.onload = function(){
     whoData = data;
 
     renderTable(whoData.slice(0, 100));
+    updateTrackingUI();
   })
   .catch(err => {
     console.error("데이터 로드 실패:", err);
@@ -71,12 +86,56 @@ function searchPlayer(){
 
   filtered.sort((a,b) => a.ranking - b.ranking);
 
-  // 🔥 너무 많으면 제한
   if(filtered.length > 100){
     filtered = filtered.slice(0, 100);
   }
 
+  /***************************************
+   * 🔥 핵심: 서버 중복 제거 후 카운팅
+   ***************************************/
+  const uniqueServers = new Set(filtered.map(p => p.world));
+
+  uniqueServers.forEach(world => {
+    if(!serverCountMap[world]){
+      serverCountMap[world] = 0;
+    }
+    serverCountMap[world] += 1;
+  });
+
+  totalSearchCount++;
+
+  updateTrackingUI();
   renderTable(filtered);
+}
+
+/***************************************
+ * 🔥 추적 UI 출력
+ ***************************************/
+function updateTrackingUI(){
+
+  const box = document.getElementById("trackingBox");
+  if(!box) return;
+
+  let html = `<div>총 검색: ${totalSearchCount}회</div>`;
+
+  const sorted = Object.entries(serverCountMap)
+    .sort((a,b) => b[1] - a[1]);
+
+  sorted.forEach(([world, count]) => {
+
+    const percent = totalSearchCount > 0
+      ? Math.round((count / totalSearchCount) * 100)
+      : 0;
+
+    html += `
+      <div>
+        ${worldMap[world] || world}
+        → ${count} / ${totalSearchCount} (${percent}%)
+      </div>
+    `;
+  });
+
+  box.innerHTML = html;
 }
 
 /***************************************
@@ -100,6 +159,11 @@ function renderTable(list){
 
   list.forEach(p => {
 
+    const count = serverCountMap[p.world] || 0;
+    const percent = totalSearchCount > 0
+      ? Math.round((count / totalSearchCount) * 100)
+      : 0;
+
     html += `
     <tr>
       <td onclick="openServerModal('${p.world}')">
@@ -110,7 +174,7 @@ function renderTable(list){
       <td>${p.name}</td>
       <td>${p.grade}</td>
       <td>${classMap[p.class] || p.class}</td>
-      <td>-</td>
+      <td>${count > 0 ? `${count} / ${totalSearchCount} (${percent}%)` : "-"}</td>
     </tr>
     `;
   });
@@ -127,7 +191,9 @@ document.addEventListener("keydown", e => {
   }
 });
 
-/* = 추가 = */
+/***************************************
+ * 서버 모달
+ ***************************************/
 function openServerModal(worldKey){
 
   const serverName = worldMap[worldKey] || worldKey;

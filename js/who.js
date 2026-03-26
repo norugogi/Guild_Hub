@@ -172,7 +172,7 @@ function renderTable(list){
       </td>
       <td>${p.ranking}</td>
       <td>${p.guild || "-"}</td>
-      <td>${p.name}</td>
+      <td title="${p.name}">${p.name}</td>
       <td>${p.grade}</td>
       <td>${classMap[p.class] || p.class}</td>
       <td>${count > 0 ? `${count} / ${totalSearchCount} (${percent}%)` : "-"}</td>

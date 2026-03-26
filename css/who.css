@@ -59,6 +59,7 @@ body {
 .who-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .who-table th {
@@ -130,4 +131,13 @@ body {
   justify-content: space-between;
   margin-bottom: 5px;
   font-weight: bold;
+}
+
+/*닉네임칸*/
+.who-table th:nth-child(4),
+.who-table td:nth-child(4) {
+  width: 140px;              /* ← 여기 숫자 조절 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

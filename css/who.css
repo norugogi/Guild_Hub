@@ -116,3 +116,18 @@ body {
 .who-table td:first-child:hover {
   text-decoration: underline;
 }
+
+/*트래킹*/
+.tracking-wrap {
+  margin: 15px 0;
+  padding: 10px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 8px;
+}
+
+.tracking-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-weight: bold;
+}

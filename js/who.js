@@ -9,7 +9,8 @@ let serverCountMap = {};       // 서버별 등장 횟수
 function resetTracking(){
   totalSearchCount = 0;
   serverCountMap = {};
-  updateTrackingUI();
+
+  renderTable(whoData.slice(0, 100)); // 화면도 초기화
 }
 
 /***************************************

@@ -22,7 +22,7 @@ jobs:
         run: pip install requests
 
       - name: 파이썬 실행
-        run: python "Who are you.py"   # 🔥 공백 때문에 반드시 "" 필요
+        run: python "Who_are_you.py"   # 🔥 공백 때문에 반드시 "" 필요
 
       - name: 커밋 & 푸시
         run: |

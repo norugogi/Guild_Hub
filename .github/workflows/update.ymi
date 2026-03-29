@@ -1,0 +1,33 @@
+name: WhoAreYou Update
+
+on:
+  workflow_dispatch:   # 🔥 버튼 실행
+  # schedule:
+  #   - cron: "*/11 * * * *"   # 필요하면 자동도 추가
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v3
+
+      - name: Python 설치
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: 라이브러리 설치
+        run: pip install requests
+
+      - name: 파이썬 실행
+        run: python "Who_are_you.py"   # 🔥 공백 때문에 반드시 "" 필요
+
+      - name: 커밋 & 푸시
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "WhoAreYou update" || echo "no changes"
+          git push

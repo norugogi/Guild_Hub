@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>모바일 세로 계산기</title>
+  <style>
+    :root {
+      --bg: #212121;
+      --panel: #2b2b2b;
+      --input-bg: #333333;
+      --text: #f2f2f2;
+      --muted: #bdbdbd;
+      --line: #3f3f3f;
+      --accent: #64b5f6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Noto Sans KR", "Segoe UI", sans-serif;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding: 16px 12px 24px;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    .box {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--input-bg);
+      color: var(--text);
+      font-size: 16px;
+      padding: 0 12px;
+      outline: none;
+    }
+
+    .box:focus {
+      border-color: var(--accent);
+    }
+
+    .result {
+      min-width: 86px;
+      height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #1f1f1f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text);
+      padding: 0 10px;
+    }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>입력 즉시 계산</h1>
+
+    <section class="row">
+      <input id="input1" class="box" type="number" inputmode="decimal" placeholder="텍스트박스1" />
+      <output id="result1" class="result">-</output>
+    </section>
+
+    <section class="row">
+      <input id="input2" class="box" type="number" inputmode="decimal" placeholder="텍스트박스2" />
+      <output id="result2" class="result">-</output>
+    </section>
+
+    <section class="row">
+      <input id="input3" class="box" type="number" inputmode="decimal" placeholder="텍스트박스3" />
+      <output id="result3" class="result">-</output>
+    </section>
+
+    <section class="row">
+      <input id="input4" class="box" type="number" inputmode="decimal" placeholder="텍스트박스4" />
+      <output id="result4" class="result">-</output>
+    </section>
+
+    <section class="row">
+      <input id="input5" class="box" type="number" inputmode="decimal" placeholder="텍스트박스5" />
+      <output id="result5" class="result">-</output>
+    </section>
+
+    <p class="hint">계산식: ROUNDUP(입력값 / (100 * 1), 0)</p>
+  </main>
+
+  <script>
+    function roundupAwayFromZero(value) {
+      if (value > 0) return Math.ceil(value);
+      if (value < 0) return Math.floor(value);
+      return 0;
+    }
+
+    function updateRow(index) {
+      const inputEl = document.getElementById("input" + index);
+      const resultEl = document.getElementById("result" + index);
+      const raw = inputEl.value.trim();
+
+      if (raw === "") {
+        resultEl.textContent = "-";
+        return;
+      }
+
+      const num = Number(raw);
+      if (!Number.isFinite(num)) {
+        resultEl.textContent = "-";
+        return;
+      }
+
+      const calculated = roundupAwayFromZero(num / (100 * 1));
+      resultEl.textContent = String(calculated);
+    }
+
+    for (let i = 1; i <= 5; i += 1) {
+      const input = document.getElementById("input" + i);
+      input.addEventListener("input", function () {
+        updateRow(i);
+      });
+    }
+  </script>
+</body>
+</html>

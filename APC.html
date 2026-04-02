@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>모바일 세로 계산기</title>
+  <title>고냥</title>
   <style>
     :root {
       --bg: #212121;
@@ -30,7 +30,7 @@
 
     .wrap {
       width: 100%;
-      max-width: 480px;
+      max-width: 520px;
       min-height: 100dvh;
       margin: 0 auto;
       padding: 16px 12px 24px;
@@ -45,7 +45,7 @@
 
     .row {
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr auto 1fr auto;
       gap: 8px;
       align-items: center;
       background: var(--panel);
@@ -72,7 +72,7 @@
     }
 
     .result {
-      min-width: 86px;
+      min-width: 64px;
       height: 44px;
       border-radius: 10px;
       border: 1px solid var(--line);
@@ -86,11 +86,23 @@
       padding: 0 10px;
     }
 
+    .result-final {
+      color: #ff5252;
+      border-color: #7a2e2e;
+      background: #2a1a1a;
+    }
+
     .hint {
       margin-top: 8px;
       font-size: 12px;
       color: var(--muted);
       line-height: 1.5;
+    }
+
+    @media (max-width: 420px) {
+      .row {
+        grid-template-columns: 1fr auto;
+      }
     }
   </style>
 </head>
@@ -99,31 +111,41 @@
     <h1>입력 즉시 계산</h1>
 
     <section class="row">
-      <input id="input1" class="box" type="number" inputmode="decimal" placeholder="입력" />
+      <input id="input1" class="box" type="number" inputmode="decimal" placeholder="-" />
       <output id="result1" class="result">-</output>
+      <input id="input1b" class="box" type="number" inputmode="decimal" placeholder="-" />
+      <output id="result1b" class="result result-final">-</output>
     </section>
 
     <section class="row">
-      <input id="input2" class="box" type="number" inputmode="decimal" placeholder="입력" />
+      <input id="input2" class="box" type="number" inputmode="decimal" placeholder="-" />
       <output id="result2" class="result">-</output>
+      <input id="input2b" class="box" type="number" inputmode="decimal" placeholder="-" />
+      <output id="result2b" class="result result-final">-</output>
     </section>
 
     <section class="row">
-      <input id="input3" class="box" type="number" inputmode="decimal" placeholder="입력" />
+      <input id="input3" class="box" type="number" inputmode="decimal" placeholder="-" />
       <output id="result3" class="result">-</output>
+      <input id="input3b" class="box" type="number" inputmode="decimal" placeholder="-" />
+      <output id="result3b" class="result result-final">-</output>
     </section>
 
     <section class="row">
-      <input id="input4" class="box" type="number" inputmode="decimal" placeholder="입력" />
+      <input id="input4" class="box" type="number" inputmode="decimal" placeholder="-" />
       <output id="result4" class="result">-</output>
+      <input id="input4b" class="box" type="number" inputmode="decimal" placeholder="-" />
+      <output id="result4b" class="result result-final">-</output>
     </section>
 
     <section class="row">
-      <input id="input5" class="box" type="number" inputmode="decimal" placeholder="입력" />
+      <input id="input5" class="box" type="number" inputmode="decimal" placeholder="-" />
       <output id="result5" class="result">-</output>
+      <input id="input5b" class="box" type="number" inputmode="decimal" placeholder="-" />
+      <output id="result5b" class="result result-final">-</output>
     </section>
 
-    <p class="hint">계산식: ROUNDUP(입력값 / (100 * 1), 0)</p>
+    <p class="hint">계산식: 1차결과 = ROUNDUP(입력값 / (100 * 1), 0), 최종결과 = 1차결과 / 수치2</p>
   </main>
 
   <script>
@@ -133,31 +155,63 @@
       return 0;
     }
 
-    function updateRow(index) {
-      const inputEl = document.getElementById("input" + index);
-      const resultEl = document.getElementById("result" + index);
-      const raw = inputEl.value.trim();
-
-      if (raw === "") {
-        resultEl.textContent = "-";
-        return;
-      }
-
+    function parseNumberFromInput(id) {
+      const raw = document.getElementById(id).value.trim();
+      if (raw === "") return null;
       const num = Number(raw);
-      if (!Number.isFinite(num)) {
-        resultEl.textContent = "-";
+      return Number.isFinite(num) ? num : null;
+    }
+
+    function formatDivision(value) {
+      return String(Math.trunc(value));
+    }
+
+    function updateRow(index) {
+      const firstInputId = "input" + index;
+      const firstResultId = "result" + index;
+      const secondInputId = "input" + index + "b";
+      const secondResultId = "result" + index + "b";
+
+      const firstNumber = parseNumberFromInput(firstInputId);
+      const secondNumber = parseNumberFromInput(secondInputId);
+      const firstResultEl = document.getElementById(firstResultId);
+      const secondResultEl = document.getElementById(secondResultId);
+
+      if (firstNumber === null) {
+        firstResultEl.textContent = "-";
+        secondResultEl.textContent = "-";
         return;
       }
 
-      const calculated = roundupAwayFromZero(num / (100 * 1));
-      resultEl.textContent = String(calculated);
+      const firstCalculated = roundupAwayFromZero(firstNumber / (100 * 1));
+      firstResultEl.textContent = String(firstCalculated);
+
+      if (secondNumber === null || secondNumber === 0) {
+        secondResultEl.textContent = "-";
+        return;
+      }
+
+      secondResultEl.textContent = formatDivision(firstCalculated / secondNumber);
     }
 
     for (let i = 1; i <= 5; i += 1) {
-      const input = document.getElementById("input" + i);
-      input.addEventListener("input", function () {
+      const firstInputId = "input" + i;
+      const firstResultId = "result" + i;
+      const secondInputId = "input" + i + "b";
+      const secondResultId = "result" + i + "b";
+
+      const firstInput = document.getElementById(firstInputId);
+      const secondInput = document.getElementById(secondInputId);
+
+      firstInput.addEventListener("input", function () {
         updateRow(i);
       });
+
+      secondInput.addEventListener("input", function () {
+        updateRow(i);
+      });
+
+      updateRow(i);
     }
   </script>
 </body>
